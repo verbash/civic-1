@@ -166,6 +166,14 @@ function civic_1_register_patterns(): void {
 			'keywords'    => array( 'page', 'template', 'layout', 'full width' ),
 			'file'        => 'page-template.html',
 		),
+		array(
+			'slug'        => 'civic-1/feature-page',
+			'title'       => __( 'Feature page (Community / embeds)', 'civic-1' ),
+			'description' => __( 'Header + H2 intro + open area with wpForo shortcode placeholder. Use on a page set to the Blank template; edit title, intro, and replace or keep [wpforo].', 'civic-1' ),
+			'categories'  => array( 'civic-1', 'cv1-layout' ),
+			'keywords'    => array( 'feature', 'page', 'community', 'embed', 'wpforo', 'template' ),
+			'file'        => 'feature-page.html',
+		),
 	);
 
 	foreach ( $patterns as $pattern ) {
