@@ -1,0 +1,1046 @@
+/**
+ * Civic-1 (cv1) austere UI — newsletter-aligned tokens + layout.
+ * See cursor-brief-design.md and cursor-kit-strategy.md.
+ */
+
+/* --- Scroll: hide scrollbar chrome (all viewports; scroll still works) --- */
+
+.cv1-scroll-hide-chrome {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.cv1-scroll-hide-chrome::-webkit-scrollbar {
+  display: none;
+  height: 0;
+  width: 0;
+}
+
+html,
+body,
+.wp-site-blocks,
+main,
+.cv1-drawer__nav,
+.cv1-embed-region,
+.wp-block-html:has(iframe),
+.wp-block-embed,
+.wp-block-table {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+.wp-site-blocks::-webkit-scrollbar,
+main::-webkit-scrollbar,
+.cv1-drawer__nav::-webkit-scrollbar,
+.cv1-embed-region::-webkit-scrollbar,
+.wp-block-html:has(iframe)::-webkit-scrollbar,
+.wp-block-embed::-webkit-scrollbar,
+.wp-block-table::-webkit-scrollbar {
+  display: none;
+  height: 0;
+  width: 0;
+}
+
+/* --- Interior content column (title band, tabs, post body, header inner) ---
+ * Below --cv1-content-max: column is 100% wide with fixed side padding.
+ * Above --cv1-content-max: column stays capped; only outer margin grows (margin-inline: auto).
+ */
+
+:root {
+  --cv1-content-max: var(--wp--style--global--wide-size, 1280px);
+  --cv1-content-gutter: 1.5rem;
+  --cv1-section-inset: var(--cv1-content-gutter);
+  --cv1-inset-fullbleed: calc(
+    var(--cv1-content-gutter) + var(--cv1-section-inset)
+  );
+  --cv1-header-logo-size: 80px;
+}
+
+@media (max-width: 781px) {
+  :root {
+    --cv1-content-gutter: 0.75rem;
+  }
+}
+
+/* One inset on shells — not header/footer nav */
+main > .wp-block-group:has(.wp-block-post-title),
+main > .cv1-section-subnav,
+main .wp-block-post-content {
+  box-sizing: border-box;
+  margin-inline: auto;
+  max-width: var(--cv1-content-max);
+  padding-inline: var(--cv1-content-gutter);
+  width: 100%;
+}
+
+/* WP constrained layout adds root side padding; avoid stacking inside main */
+main .wp-block-post-content .is-layout-constrained {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+/* Full-bleed blocks: cancel post-content gutter (alignfull breakout) */
+main .wp-block-post-content > .alignfull {
+  margin-inline: calc(-1 * var(--cv1-content-gutter));
+  max-width: calc(100% + 2 * var(--cv1-content-gutter));
+  width: calc(100% + 2 * var(--cv1-content-gutter));
+}
+
+main > .wp-block-group:has(.wp-block-post-title).is-layout-constrained,
+main > .cv1-section-subnav.is-layout-constrained {
+  padding-inline: var(--cv1-content-gutter);
+}
+
+/* Embed pages: legacy flex nowrap groups shrink to iframe intrinsic width (~300px) */
+main .wp-block-post-content > .wp-block-group:has(.cv1-embed-region) {
+  display: block;
+  width: 100%;
+}
+
+main .wp-block-post-content .cv1-embed-region {
+  box-sizing: border-box;
+  max-width: 100%;
+  width: 100%;
+}
+
+main .wp-block-post-content .cv1-embed-region iframe {
+  width: 100%;
+}
+
+/* --- Links & buttons (flat) --- */
+
+a:where(:not(.wp-element-button)) {
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.15em;
+}
+
+.wp-block-button .wp-block-button__link {
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  min-height: 44px;
+}
+
+/* Hero / cover CTAs: keep label readable on primary fill */
+.wp-block-cover
+  .wp-block-button
+  .wp-block-button__link.has-primary-background-color {
+  color: var(--wp--preset--color--base, #ffffff) !important;
+}
+
+/* --- Homepage: hero cover (restrained image + readable type) --- */
+
+.cv1-hero-cover,
+.d4c-hero-cover {
+  border-bottom: 1px solid var(--wp--preset--color--cv1-border, #1a1a1a);
+  overflow: hidden;
+  position: relative;
+}
+
+/* Dim layer: vignette + light blur (split between sharp and 3px) */
+.cv1-hero-cover > .wp-block-cover__background,
+.d4c-hero-cover > .wp-block-cover__background {
+  -webkit-backdrop-filter: blur(1.5px) saturate(0.96);
+  backdrop-filter: blur(1.5px) saturate(0.96);
+  background-color: transparent !important;
+  background-image: radial-gradient(
+      ellipse 92% 72% at 50% 40%,
+      rgba(0, 0, 0, 0.4) 0%,
+      transparent 72%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(26, 26, 26, 0.48) 0%,
+      rgba(26, 26, 26, 0.72) 48%,
+      rgba(26, 26, 26, 0.66) 100%
+    ) !important;
+  height: 100% !important;
+  inset: 0 !important;
+  left: 50% !important;
+  margin: 0 !important;
+  max-width: none !important;
+  opacity: 1 !important;
+  position: absolute !important;
+  right: auto !important;
+  transform: translateX(-50%);
+  width: 100vw !important;
+  z-index: 1;
+}
+
+.cv1-hero-cover .wp-block-cover__image-background,
+.d4c-hero-cover .wp-block-cover__image-background {
+  object-position: 50% 20% !important;
+  z-index: 0;
+}
+
+.cv1-hero-cover .wp-block-cover__inner-container,
+.d4c-hero-cover .wp-block-cover__inner-container {
+  box-sizing: border-box;
+  margin-inline: auto;
+  max-width: var(--wp--style--global--wide-size, 1280px);
+  padding-inline: var(--cv1-content-gutter);
+  position: relative;
+  width: 100%;
+  z-index: 2;
+}
+
+.cv1-hero-cover .wp-block-heading,
+.cv1-hero-cover .wp-block-paragraph,
+.d4c-hero-cover .wp-block-heading,
+.d4c-hero-cover .wp-block-paragraph {
+  text-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.45),
+    0 0 24px rgba(0, 0, 0, 0.25);
+}
+
+.cv1-hero-cover .wp-block-button.is-style-outline .wp-block-button__link,
+.d4c-hero-cover .wp-block-button.is-style-outline .wp-block-button__link {
+  border: 2px solid var(--wp--preset--color--base, #ffffff);
+  color: var(--wp--preset--color--base, #ffffff) !important;
+}
+
+@media (min-width: 782px) {
+  /* Break out of capped post-content column — band spans viewport */
+  .home .wp-block-post-content > .d4c-hero-cover.alignfull,
+  .home .wp-block-post-content > .cv1-hero-cover.alignfull {
+    margin-inline: calc(50% - 50vw) !important;
+    max-width: 100vw !important;
+    width: 100vw !important;
+  }
+
+  .home .d4c-hero-cover .wp-block-buttons,
+  .home .cv1-hero-cover .wp-block-buttons {
+    align-items: stretch;
+    flex-flow: row wrap;
+    gap: 0.75rem 1rem;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .home .d4c-hero-cover .wp-block-buttons > .wp-block-button,
+  .home .cv1-hero-cover .wp-block-buttons > .wp-block-button {
+    flex: 0 1 auto;
+    margin: 0;
+    min-width: min(100%, 11.5rem);
+    width: auto;
+  }
+
+  .home .d4c-hero-cover .wp-block-button__link,
+  .home .cv1-hero-cover .wp-block-button__link {
+    align-items: center;
+    box-sizing: border-box;
+    display: inline-flex;
+    justify-content: center;
+    min-height: 44px;
+    min-width: 11.5rem;
+    padding-inline: 1.25rem;
+    text-align: center;
+    width: 100%;
+  }
+}
+
+/* Legacy plain band (if any page still uses it) */
+.cv1-hero {
+  border-bottom: 1px solid var(--wp--preset--color--cv1-border, #1a1a1a);
+}
+
+.cv1-hero .wp-block-heading {
+  color: var(--wp--preset--color--foreground, #1a1a1a);
+}
+
+/* Flatten legacy HostGator / nfd button chrome on homepage */
+.home .wp-block-button__link,
+.blog.home .wp-block-button__link {
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+.home .wp-block-button.is-style-outline .wp-block-button__link {
+  border: 2px solid currentColor;
+}
+
+/* Section rhythm: tame one-off giant headings from Site Editor */
+.home .wp-block-post-content > .wp-block-heading {
+  font-size: var(--wp--preset--font-size--x-large, 1.5rem) !important;
+}
+
+.home .wp-block-post-content .wp-block-separator {
+  margin-top: var(--wp--preset--spacing--50, 2.5rem);
+  margin-bottom: var(--wp--preset--spacing--50, 2.5rem);
+}
+
+/* --- Blog / news archive --- */
+
+.cv1-blog-categories {
+  font-size: var(--wp--preset--font-size--medium, 1.125rem);
+  margin-block: var(--wp--preset--spacing--40, 1.5rem)
+    var(--wp--preset--spacing--50, 2.5rem);
+}
+
+.cv1-blog-categories a {
+  color: var(--wp--preset--color--cv1-blue-link, #3c547c);
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+.cv1-blog-card {
+  margin-block-end: var(--wp--preset--spacing--50, 2.5rem);
+}
+
+.cv1-blog-card .wp-block-post-title {
+  margin-block: 0 var(--wp--preset--spacing--30, 1rem);
+}
+
+.cv1-blog-card .wp-block-post-title a {
+  color: var(--wp--preset--color--foreground, #1a1a1a);
+  text-decoration: none;
+}
+
+.cv1-blog-card .wp-block-post-title a:hover {
+  color: var(--wp--preset--color--cv1-blue-link, #3c547c);
+  text-decoration: underline;
+}
+
+.cv1-blog-meta {
+  color: var(--wp--preset--color--cv1-text-muted, #4a4a4a);
+  font-size: var(--wp--preset--font-size--small, 0.9375rem);
+  gap: 0.35rem 0.75rem;
+  margin-block-end: var(--wp--preset--spacing--30, 1rem);
+}
+
+.cv1-blog-meta .wp-block-post-date,
+.cv1-blog-meta .wp-block-post-terms,
+.cv1-read-time {
+  color: inherit;
+  font-size: inherit;
+}
+
+.cv1-blog-meta .wp-block-post-terms a {
+  color: var(--wp--preset--color--cv1-blue-link, #3c547c);
+}
+
+.cv1-blog-card .wp-block-post-featured-image img {
+  border: 1px solid var(--wp--preset--color--cv1-border, #1a1a1a);
+  display: block;
+  height: auto;
+  width: 100%;
+}
+
+.cv1-blog-card .wp-block-post-featured-image:not(:has(img)) {
+  display: none;
+}
+
+.cv1-blog-card .wp-block-post-excerpt__more-link {
+  font-weight: 600;
+}
+
+/* Embedded regions: calm borders, no layout blowout */
+.home .wp-block-html iframe {
+  max-width: 100%;
+  border: 1px solid var(--wp--preset--color--cv1-border, #1a1a1a) !important;
+}
+
+/* Homepage: D4C Voices newsletter (HeyZine flipbook) */
+.home
+  .wp-block-post-content
+  > .wp-block-heading.has-text-align-center:has(+ .wp-block-columns .fp-iframe) {
+  font-size: clamp(1.5rem, 2.5vw, 1.875rem) !important;
+  margin-block: var(--wp--preset--spacing--60, 3rem)
+    var(--wp--preset--spacing--40, 1.5rem);
+}
+
+.home
+  .wp-block-post-content
+  > .wp-block-heading.has-text-align-center
+  + .wp-block-columns:has(.fp-iframe) {
+  margin-block-end: var(--wp--preset--spacing--40, 1.5rem);
+}
+
+.home .wp-block-post-content .fp-iframe,
+.home .wp-block-post-content iframe[src*="heyzine.com"] {
+  display: block;
+  height: 36rem !important;
+  min-height: 36rem;
+  width: 100% !important;
+}
+
+@media (max-width: 781px) {
+  .home .wp-block-post-content .fp-iframe,
+  .home .wp-block-post-content iframe[src*="heyzine.com"] {
+    height: 28rem !important;
+    min-height: 28rem;
+  }
+}
+
+/* Homepage: City Council testimony promo (image + copy band) */
+.home .cv1-city-council-promo,
+.home .d4c-city-council-promo {
+  box-sizing: border-box;
+  margin-block: var(--wp--preset--spacing--50, 2.5rem);
+  max-width: 100%;
+  width: 100%;
+}
+
+.home .cv1-city-council-promo .wp-block-image,
+.home .d4c-city-council-promo .wp-block-image {
+  margin-inline: auto;
+}
+
+.home .cv1-city-council-promo .wp-block-image img,
+.home .d4c-city-council-promo .wp-block-image img {
+  display: block;
+  height: auto;
+  margin-inline: auto;
+  max-width: min(100%, 534px);
+  width: 100%;
+}
+
+@media (max-width: 781px) {
+  .home .cv1-city-council-promo .wp-block-column,
+  .home .d4c-city-council-promo .wp-block-column {
+    flex-basis: 100% !important;
+  }
+
+  .home
+    .cv1-city-council-promo
+    .wp-block-column
+    > :not(.has-text-align-center),
+  .home
+    .d4c-city-council-promo
+    .wp-block-column
+    > :not(.has-text-align-center) {
+    text-align: center;
+  }
+}
+
+/* --- Footer --- */
+
+.cv1-footer {
+  border-top: 1px solid var(--wp--preset--color--cv1-border, #1a1a1a);
+  margin-top: var(--wp--preset--spacing--60, 3rem);
+}
+
+.cv1-footer .wp-block-columns {
+  gap: var(--wp--preset--spacing--40, 1.5rem);
+}
+
+.cv1-footer .wp-block-table td,
+.cv1-footer .wp-block-table th {
+  border: none;
+  padding: 0.25rem 0;
+}
+
+/* Hide theme default WordPress credit if parent pattern ever loads */
+.cv1-footer p:has(a[href*="wordpress.org"]),
+footer .wp-block-group p:has(a[href*="wordpress.org"]) {
+  display: none !important;
+}
+
+/* Interior page title band (override Site Editor 6rem title margin + spacer) */
+/* main stacking + H1 FOUC → assets/cv1-header-critical.css (inlined) */
+
+/* Keep title band in main's stacking context (below header flyouts) */
+main > .wp-block-group:has(.wp-block-post-title) {
+  z-index: 1;
+}
+
+main
+  > .wp-block-group:has(.wp-block-post-title):not(
+    :has(.cv1-page-title-band__row)
+  ) {
+  margin-block: var(--wp--preset--spacing--50, 2.5rem)
+    var(--wp--preset--spacing--40, 1.5rem);
+}
+
+/* PHP title band (H1 + donate CTA): band shell in cv1-header-critical.css */
+main > .wp-block-group:has(.cv1-page-title-band__row) {
+  margin-block-end: var(--wp--preset--spacing--40, 1.5rem);
+}
+
+/* Template post-title is alignwide inside constrained layout → otherwise caps at contentSize (720px) */
+.cv1-page-title-band__row .wp-block-post-title.alignwide {
+  max-width: none;
+  width: 100%;
+}
+
+/* Title band rule — one 1px line (override core separator 2px top/bottom) */
+main > .wp-block-group:has(.wp-block-post-title) > .wp-block-separator,
+main > .wp-block-group:has(.cv1-page-title-band__row) > .wp-block-separator {
+  background: none !important;
+  border: none !important;
+  border-bottom: none !important;
+  border-top: 1px solid var(--wp--preset--color--cv1-border, #1a1a1a) !important;
+  display: block;
+  height: 0 !important;
+  margin-block: var(--wp--preset--spacing--30, 1rem) 0;
+  max-width: none;
+  opacity: 1 !important;
+  width: 100%;
+}
+
+main .wp-block-post-content > .wp-block-group:first-child,
+main .wp-block-post-content > .wp-block-paragraph:first-child {
+  margin-block-start: 0;
+}
+
+/* Intro + hub cards share wide measure */
+main .wp-block-post-content > .wp-block-group.is-layout-constrained {
+  max-width: none;
+}
+
+/* --- Interior heading hierarchy (block pattern roles) ---
+ * H1 = section title band only (template post-title).
+ * H2 = hub intro or topic page title (.cv1-page-title / is-style-cv1-page-title).
+ * H3 = major subsections + hub cards (.cv1-section-heading / is-style-cv1-section or .cv1-hub-card).
+ * H4 = nested items within a subsection (e.g. resource rule items).
+ *
+ * Block style classes (registered via heading-styles.php) shadow the className patterns:
+ *   is-style-cv1-page-title   = cv1-page-title
+ *   is-style-cv1-section      = cv1-section-heading
+ *   is-style-cv1-accent       = cv1-heading-accent (brand blue; use sparingly)
+ */
+
+/* Topic / section-child page title — H2 below title-band H1 */
+main .wp-block-post-content .is-style-cv1-page-title,
+main .wp-block-post-content .cv1-page-title,
+body.cv1-section-child main .wp-block-post-content > h2.cv1-page-title,
+body.cv1-section-child
+  main
+  .wp-block-post-content
+  > .cv1-section-subnav
+  + h2.cv1-page-title,
+body.cv1-section-child
+  main
+  .wp-block-post-content
+  > .cv1-section-subnav
+  + .wp-block-group
+  > h2.cv1-page-title:first-child,
+body.cv1-section-child
+  main
+  .wp-block-post-content
+  > .wp-block-group:first-child
+  > h2.cv1-page-title:first-child {
+  font-family: var(--wp--preset--font-family--system-sans) !important;
+  font-size: var(--wp--preset--font-size--x-large, 2rem) !important;
+  font-weight: 700 !important;
+  line-height: 1.25 !important;
+  margin-block: 0 var(--wp--preset--spacing--30, 1rem) !important;
+  text-align: left !important;
+}
+
+/* Major in-content subsections — H3 (hub cards use .cv1-hub-card rules instead) */
+main .wp-block-post-content .is-style-cv1-section,
+main .wp-block-post-content .cv1-section-heading {
+  font-family: var(--wp--preset--font-family--system-sans) !important;
+  font-size: var(--wp--preset--font-size--large, 1.5rem) !important;
+  font-weight: 700 !important;
+  line-height: 1.25 !important;
+  margin-block: var(--wp--preset--spacing--50, 2.5rem)
+    var(--wp--preset--spacing--30, 1rem) !important;
+  text-align: left !important;
+}
+
+main .wp-block-post-content .is-style-cv1-section.has-text-align-center,
+main .wp-block-post-content .cv1-section-heading.has-text-align-center {
+  text-align: center !important;
+}
+
+/* Accent heading — brand blue, any level (use sparingly; max one per section) */
+main .wp-block-post-content .is-style-cv1-accent,
+main .wp-block-post-content .cv1-heading-accent {
+  color: var(--wp--preset--color--cv1-blue-link, #3c547c) !important;
+}
+
+/* Programs hub cards */
+.cv1-programs-hub.wp-block-columns {
+  align-items: stretch;
+  gap: var(--wp--preset--spacing--40, 1.5rem) !important;
+}
+
+.cv1-programs-hub > .wp-block-column {
+  flex-basis: 0;
+  flex-grow: 1;
+  min-width: 14rem;
+  padding: 0 !important;
+}
+
+.cv1-hub-card {
+  border: 1px solid var(--wp--preset--color--cv1-border, #1a1a1a);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: var(--wp--preset--spacing--50, 2rem)
+    var(--wp--preset--spacing--40, 1.5rem);
+}
+
+.cv1-hub-card--services {
+  border-top: 4px solid var(--wp--preset--color--secondary, #94acd0);
+}
+
+.cv1-hub-card--programs {
+  border-top: 4px solid var(--wp--preset--color--cv1-surface-teal, #a0ccd4);
+}
+
+.cv1-hub-card--grants {
+  border-top: 4px solid var(--wp--preset--color--primary, #5c94d4);
+}
+
+.cv1-hub-card .wp-block-heading {
+  border-bottom: 1px solid var(--wp--preset--color--cv1-border, #1a1a1a);
+  font-size: var(--wp--preset--font-size--large, 1.5rem) !important;
+  line-height: 1.25;
+  margin-block: 0 var(--wp--preset--spacing--40, 1.5rem);
+  padding-block-end: var(--wp--preset--spacing--30, 1rem);
+  word-break: normal;
+}
+
+.cv1-hub-card .wp-block-heading a {
+  text-decoration: none;
+}
+
+.cv1-hub-card .wp-block-heading a:hover {
+  text-decoration: underline;
+}
+
+.cv1-hub-card .wp-block-list {
+  flex: 1;
+  font-size: var(--wp--preset--font-size--small, 0.9375rem);
+  line-height: 1.55;
+  margin: 0;
+  padding-inline-start: 1.15rem;
+}
+
+.cv1-hub-card .wp-block-list li {
+  margin-block-end: 0.5em;
+}
+
+.cv1-hub-card .wp-block-list li:last-child {
+  margin-block-end: 0;
+}
+
+/* Hub card CTAs: compact centered button, not a full-width band */
+.cv1-hub-card .wp-block-buttons {
+  justify-content: center;
+  margin-block-start: auto;
+  padding-block-start: var(--wp--preset--spacing--30, 1rem);
+  width: 100%;
+}
+
+.cv1-hub-card .wp-block-buttons > .wp-block-button {
+  flex: 0 1 auto;
+  width: auto;
+}
+
+.cv1-hub-card .wp-block-button__link {
+  display: inline-block;
+  padding: 0.5rem 1.25rem;
+  text-align: center;
+  width: auto;
+  white-space: normal;
+}
+
+/* Section hub intro CTA → card grid (block spacing attrs often do not render) */
+body.cv1-section-hub .wp-block-post-content > .wp-block-buttons {
+  margin-block-end: var(--wp--preset--spacing--50, 2.5rem);
+}
+
+body.cv1-section-hub .wp-block-post-content > .wp-block-columns.cv1-programs-hub {
+  margin-block-start: 0;
+}
+
+/* Topic hub cards: descriptor always visible (touch has no hover) */
+.cv1-hub-card--topic {
+  flex-direction: column;
+  justify-content: flex-start;
+  min-height: auto;
+}
+
+.cv1-hub-card--topic .wp-block-heading {
+  border-bottom: 1px solid var(--wp--preset--color--cv1-border, #1a1a1a);
+  margin-block-end: var(--wp--preset--spacing--30, 1rem);
+  padding-block-end: var(--wp--preset--spacing--30, 1rem);
+}
+
+.cv1-hub-card__dek {
+  color: var(--wp--preset--color--cv1-text-muted, #4a4a4a);
+  line-height: 1.45;
+  margin: 0;
+}
+
+/* Mouse: subtle emphasis only — never hide copy (WCAG / touch-safe) */
+@media (hover: hover) {
+  .cv1-hub-card--topic:focus-within .cv1-hub-card__dek,
+  .cv1-hub-card--topic:hover .cv1-hub-card__dek {
+    color: var(--wp--preset--color--foreground, #1a1a1a);
+  }
+}
+
+.cv1-resource-rules .wp-block-heading {
+  text-align: left;
+}
+
+.cv1-resource-rules > .wp-block-heading.cv1-section-heading {
+  margin-block-start: 0;
+}
+
+.cv1-resource-rules .wp-block-heading:not(.cv1-section-heading) {
+  font-size: var(--wp--preset--font-size--medium, 1.125rem) !important;
+  font-weight: 700 !important;
+  line-height: 1.3 !important;
+  margin-block: var(--wp--preset--spacing--40, 1.5rem)
+    var(--wp--preset--spacing--20, 0.75rem) !important;
+}
+
+.cv1-resource-rules .wp-block-paragraph:last-child {
+  margin-block-end: 0;
+}
+
+/* Section subnav — page tabs + hub anchor tabs (About, Programs, Resources) */
+.cv1-section-subnav {
+  box-sizing: border-box;
+  margin-block: 0 var(--wp--preset--spacing--50, 2.5rem);
+  margin-inline: auto;
+  max-width: var(--cv1-content-max);
+  padding-block: 0;
+  width: 100%;
+}
+
+/* WP constrained layout caps children at contentSize (720px) — keep tabs full column width */
+.cv1-section-subnav.is-layout-constrained > *,
+.cv1-section-subnav__tabs,
+.cv1-section-subnav__anchors {
+  max-width: none !important;
+  width: 100%;
+}
+
+/* Equipment cards (2-col) — breathing room below topic card grid */
+.cv1-resources-equipment-section {
+  margin-top: var(--wp--preset--spacing--50, 2.5rem);
+}
+
+.cv1-resources-equipment-section .cv1-programs-hub > .wp-block-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.cv1-resources-equipment-section .cv1-hub-card {
+  flex: 1 1 auto;
+  height: 100%;
+}
+
+.cv1-resources-equipment-section .cv1-hub-card .wp-block-heading {
+  text-align: left !important;
+}
+
+.cv1-resources-equipment-section
+  .cv1-hub-card
+  .wp-block-heading.cv1-section-heading {
+  margin-block-start: 0;
+}
+
+/* Rules callout — own block after equipment columns */
+main .wp-block-post-content > .cv1-callout.cv1-resource-rules,
+main .wp-block-post-content > .cv1-resource-rules {
+  margin-block-start: var(--wp--preset--spacing--50, 2.5rem);
+}
+
+/* Hub anchor targets — clear fixed header when jumping from on-page anchor tabs */
+[id^="resources-"],
+[id^="cv1-section-"] {
+  scroll-margin-top: 6rem;
+}
+
+/* Fillable hub anchor strip (editor); hidden on front — hoisted to .cv1-section-subnav__anchors */
+.block-editor-block-list__layout .cv1-hub-on-page-anchors {
+  border: 1px dashed var(--wp--preset--color--cv1-border, #1a1a1a);
+  padding: 0.5rem 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.cv1-section-subnav__tabs,
+.cv1-section-subnav__anchors {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.cv1-section-subnav__anchors {
+  border-top: 1px solid var(--wp--preset--color--cv1-border, #1a1a1a);
+  margin-top: var(--wp--preset--spacing--30, 1rem);
+  padding-top: var(--wp--preset--spacing--30, 1rem);
+}
+
+.cv1-section-subnav__item a {
+  border: 1px solid transparent;
+  color: var(--wp--preset--color--cv1-blue-link, #3c547c);
+  display: block;
+  font-size: var(--wp--preset--font-size--small, 0.9375rem);
+  font-weight: 500;
+  line-height: 1.35;
+  padding: 0.4rem 0.65rem;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.cv1-section-subnav__item a:hover,
+.cv1-section-subnav__item a:focus-visible {
+  border-color: var(--wp--preset--color--cv1-border, #1a1a1a);
+  text-decoration: underline;
+}
+
+.cv1-section-subnav__item.is-active a {
+  background-color: var(--wp--preset--color--primary, #5c94d4);
+  border-color: var(--wp--preset--color--primary, #5c94d4);
+  color: #fff;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.cv1-section-subnav__item--anchor a {
+  background-color: var(--wp--preset--color--cv1-surface-callout, #f4f4f4);
+}
+
+.cv1-callout,
+.is-style-cv1-callout {
+  background-color: var(--wp--preset--color--cv1-surface-callout, #f4f4f4);
+  border: 1px solid var(--wp--preset--color--cv1-border, #1a1a1a);
+  padding: var(--wp--preset--spacing--40, 1.5rem);
+}
+
+/* Callout / hub cards: section-heading utility must not add hub-section top margin */
+.cv1-callout .cv1-section-heading,
+.cv1-hub-card .cv1-section-heading {
+  margin-block-start: 0 !important;
+}
+
+/* Section pages: hide title-band rule when subnav follows; keep slot (no CLS) */
+body.cv1-section-page
+  main
+  > .wp-block-group:has(.cv1-page-title-band__row)
+  > .wp-block-separator {
+  border-top-color: transparent !important;
+  visibility: hidden;
+}
+
+/* --- Header: logo left, nav right (shell/logo FOUC → cv1-header-critical.css) --- */
+
+.cv1-header-bar__inner,
+.cv1-header-bar__wordmark {
+  margin-inline: auto;
+  max-width: var(--wp--style--global--wide-size, 1280px);
+  width: 100%;
+}
+
+.cv1-header-bar .wp-block-navigation {
+  justify-content: flex-end !important;
+  position: relative;
+  z-index: 2;
+}
+
+.cv1-header-bar__inner > .cv1-nav {
+  justify-self: end;
+}
+
+@media (min-width: 782px) {
+  /* Let flyouts escape grid/flex (min-width: 0 clips position:absolute submenus). */
+  .cv1-header-bar,
+  .cv1-header-bar__inner,
+  .cv1-header-bar__wordmark,
+  .cv1-nav,
+  .cv1-nav__desktop,
+  .cv1-header-bar .wp-block-navigation,
+  .cv1-header-bar .wp-block-navigation__responsive-container,
+  .cv1-header-bar .wp-block-navigation .wp-block-navigation__container {
+    overflow: visible;
+  }
+
+  .cv1-header-bar
+    .wp-block-navigation__responsive-container-open:not(.always-shown) {
+    display: none !important;
+  }
+
+  .cv1-header-bar
+    .wp-block-navigation__responsive-container:not(.hidden-by-default):not(
+      .is-menu-open
+    ) {
+    display: block !important;
+    inset: auto !important;
+    overflow: visible;
+    position: relative !important;
+    width: 100%;
+    z-index: 2;
+  }
+
+  .cv1-header-bar .wp-block-navigation,
+  .cv1-header-bar .wp-block-navigation .wp-block-navigation__container {
+    flex-wrap: nowrap !important;
+    gap: 0.35rem 0.65rem;
+    min-width: 0;
+  }
+
+  .cv1-nav__desktop {
+    min-width: 0;
+    overflow: visible;
+  }
+
+  .cv1-header-bar .wp-block-navigation-item__content {
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    line-height: 1.35;
+    padding: 0.35rem 0.15rem;
+    white-space: nowrap;
+  }
+
+  .cv1-header-bar .wp-block-navigation-submenu__toggle {
+    margin-inline-start: 0.1em;
+    min-height: 1.75rem;
+    min-width: 1.75rem;
+  }
+
+  /* Desktop flyouts must sit above the page title band (H1 + rule) on section pages */
+  .cv1-header-bar .wp-block-navigation-item.has-child {
+    position: relative;
+    z-index: 1001;
+  }
+
+  .cv1-header-bar
+    .wp-block-navigation
+    .has-child
+    .wp-block-navigation__submenu-container {
+    background-color: var(--wp--preset--color--background, #fff) !important;
+    border: 1px solid var(--wp--preset--color--cv1-border, #1a1a1a);
+    border-radius: 0 !important;
+    box-shadow: -4px 5px 4px -1px rgba(26, 26, 26, 0.12);
+    left: -1px;
+    position: absolute;
+    top: 100%;
+    z-index: 1002;
+  }
+
+  .cv1-header-bar
+    .wp-block-navigation
+    .has-child
+    .wp-block-navigation__submenu-container
+    .wp-block-navigation-item__content {
+    background-color: var(--wp--preset--color--background, #fff);
+  }
+
+  /* Core omits :hover for .open-on-hover-click (Interactivity API); keep CSS fallback. */
+  .cv1-header-bar
+    .wp-block-navigation
+    .wp-block-navigation-submenu__toggle[aria-expanded="true"]
+    ~ .wp-block-navigation__submenu-container,
+  .cv1-header-bar
+    .wp-block-navigation
+    .has-child.open-on-hover-click:hover
+    > .wp-block-navigation__submenu-container,
+  .cv1-header-bar
+    .wp-block-navigation
+    .has-child.open-on-hover-click:focus-within
+    > .wp-block-navigation__submenu-container {
+    height: auto;
+    min-width: 200px;
+    opacity: 1;
+    overflow: visible;
+    visibility: visible;
+    width: auto;
+  }
+}
+
+/* --- Header: logo left, menu control right on small screens --- */
+
+@media (max-width: 781px) {
+  .cv1-header-bar .wp-block-site-logo {
+    max-width: none;
+  }
+
+  .cv1-nav {
+    flex: 0 0 auto;
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+/* Mobile drawer → assets/cv1-drawer-nav.css (first-party component) */
+
+/* ─── Service card (civic-1/service-card pattern) ─────────────────────── */
+
+.cv1-service-card {
+  align-items: center;
+  gap: var(--wp--preset--spacing--40, 1rem);
+  padding: var(--wp--preset--spacing--40, 1rem) 0;
+  text-align: center;
+}
+
+.cv1-service-card__image {
+  margin-inline: auto;
+  max-width: 100%;
+  width: fit-content;
+}
+
+.cv1-service-card__image img {
+  border-radius: 8px;
+  display: block;
+  object-fit: cover;
+}
+
+.cv1-service-card__title {
+  margin-block: 0;
+}
+
+.cv1-service-card__description {
+  margin-block: 0;
+  max-width: 28ch;
+  margin-inline: auto;
+}
+
+/* ─── Testimonial band (homepage) ─────────────────────────────────────── */
+
+.cv1-testimonial {
+  background-color: var(--wp--preset--color--cv1-surface-callout, #f4f4f4);
+  border: 1px solid var(--wp--preset--color--cv1-border, #1a1a1a);
+  margin-block: var(--wp--preset--spacing--60, 3rem);
+  padding: var(--wp--preset--spacing--50, 2.5rem) var(--wp--preset--spacing--40, 1.5rem);
+}
+
+.cv1-testimonial__inner {
+  align-items: center;
+  gap: var(--wp--preset--spacing--40, 1.5rem);
+  text-align: center;
+}
+
+.cv1-testimonial__quote {
+  font-size: var(--wp--preset--font-size--large, 1.25rem);
+  margin-block: 0;
+  max-width: 48ch;
+  margin-inline: auto;
+}
+
+.cv1-testimonial__author {
+  align-items: center;
+  gap: var(--wp--preset--spacing--30, 0.75rem);
+}
+
+.cv1-testimonial__avatar {
+  flex-shrink: 0;
+  margin: 0;
+}
+
+.cv1-testimonial__name {
+  margin-block: 0;
+}
+
+.cv1-testimonial__social {
+  justify-content: center;
+}
+
+/* Newsletter / embed section heading + iframe spacing */
+.cv1-embed-section {
+  margin-block: var(--wp--preset--spacing--50, 2.5rem);
+}

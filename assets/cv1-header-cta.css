@@ -1,0 +1,190 @@
+/**
+ * D4C header CTA — mobile in header bar; desktop inline with template H1.
+ *
+ * @see inc/header-cta.php
+ */
+
+/* --- Shared CTA (text left, compact legacy pill button right) --- */
+
+:root {
+  --cv1-cta-duration: 0.2s;
+  --cv1-cta-ease: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.cv1-header-cta {
+  align-items: center;
+  display: flex;
+  flex: 0 0 auto;
+  flex-wrap: nowrap;
+  gap: 0.5rem 0.65rem;
+  justify-content: flex-end;
+  min-width: 0;
+}
+
+.cv1-header-cta__text {
+  color: var(--wp--preset--color--primary, #5c94d4);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  line-height: 1.25;
+  margin: 0;
+  text-align: right;
+}
+
+.cv1-header-cta__button {
+  align-items: center;
+  background-color: var(--wp--preset--color--primary, #5c94d4);
+  border: none;
+  border-radius: 999px !important;
+  box-shadow: none !important;
+  color: var(--wp--preset--color--base, #ffffff) !important;
+  display: inline-flex;
+  flex: 0 0 auto;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  justify-content: center;
+  letter-spacing: 0.02em;
+  line-height: 1.2;
+  min-height: 0;
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  padding: 0.35rem 0.9rem;
+  text-align: center;
+  text-decoration: none !important;
+  transition:
+    background-color var(--cv1-cta-duration) var(--cv1-cta-ease),
+    color var(--cv1-cta-duration) var(--cv1-cta-ease),
+    outline-color var(--cv1-cta-duration) var(--cv1-cta-ease);
+  white-space: nowrap;
+}
+
+.cv1-header-cta__button:hover,
+.cv1-header-cta__button:focus-visible {
+  background-color: var(--wp--preset--color--cv1-blue-link, #3c547c);
+  color: var(--wp--preset--color--base, #ffffff) !important;
+  outline-color: var(--wp--preset--color--cv1-blue-link, #3c547c);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --cv1-cta-duration: 0.01ms;
+  }
+}
+
+/* --- Placement: mobile header bar only --- */
+
+.cv1-header-cta--title {
+  display: none;
+}
+
+.cv1-header-bar__inner,
+.cv1-header-bar__inner.is-layout-flex,
+.cv1-header-bar__inner.wp-block-group-is-layout-flex {
+  align-items: center;
+  column-gap: clamp(0.5rem, 2vw, 1rem);
+  display: grid !important;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-rows: auto;
+}
+
+.cv1-header-bar__inner > .cv1-header-bar__logo,
+.cv1-header-bar__inner > .wp-block-site-logo {
+  grid-column: 1;
+  grid-row: 1;
+  min-width: 0;
+}
+
+.cv1-header-bar__inner > .cv1-header-cta--header {
+  grid-column: 2;
+  grid-row: 1;
+  justify-self: end;
+}
+
+.cv1-header-bar__inner > .cv1-nav,
+.cv1-header-bar__inner > .wp-block-navigation {
+  grid-column: 3;
+  grid-row: 1;
+  justify-self: end;
+}
+
+/* --- Placement: desktop title band (H1 + CTA), flush under header rule --- */
+
+.cv1-page-title-band__row {
+  align-items: flex-start;
+  display: flex;
+  flex-wrap: nowrap;
+  gap: clamp(0.75rem, 2vw, 1.5rem);
+  justify-content: space-between;
+}
+
+.cv1-page-title-band__row .wp-block-post-title {
+  flex: 1 1 auto;
+  margin-block: 0 var(--wp--preset--spacing--30, 1rem) !important;
+  min-width: 0;
+}
+
+@media (min-width: 782px) {
+  .cv1-header-cta--header {
+    display: none !important;
+  }
+
+  /* H1 + CTA: grid row (avoids 720px alignwide cap + vw padding hack on wide column) */
+  main > .wp-block-group:has(.cv1-page-title-band__row) {
+    padding-block-start: 0.35rem;
+  }
+
+  .cv1-page-title-band__row {
+    align-items: flex-start;
+    box-sizing: border-box;
+    display: grid;
+    gap: clamp(0.75rem, 1.5rem, 2rem);
+    grid-template-columns: minmax(0, 1fr) auto;
+    max-width: none;
+    width: 100%;
+  }
+
+  .cv1-page-title-band__row .wp-block-post-title {
+    margin-block: 0 !important;
+    max-width: none;
+    width: 100%;
+  }
+
+  .cv1-header-cta--title {
+    display: flex;
+    margin: 0;
+    position: static;
+  }
+
+  .cv1-header-bar__inner {
+    grid-template-columns: auto 1fr;
+  }
+
+  .cv1-header-bar__inner > .cv1-nav,
+  .cv1-header-bar__inner > .wp-block-navigation {
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: end;
+    overflow: visible;
+  }
+
+  .cv1-header-cta--title .cv1-header-cta__text {
+    font-size: 0.8125rem;
+    white-space: nowrap;
+  }
+
+  .cv1-header-cta--title .cv1-header-cta__button {
+    font-size: 0.8125rem;
+    padding: 0.35rem 0.85rem;
+  }
+}
+
+@media (max-width: 781px) {
+  .cv1-header-cta--header .cv1-header-cta__text {
+    font-size: 0.6875rem;
+    max-width: min(9.5rem, 28vw);
+  }
+
+  .cv1-header-cta--header .cv1-header-cta__button {
+    font-size: 0.75rem;
+    padding: 0.28rem 0.7rem;
+  }
+}

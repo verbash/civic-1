@@ -1,0 +1,575 @@
+/**
+ * D4C reusable mobile components (≤781px).
+ * Shared by section pages, hubs, homepage, and utility pages.
+ * Breakpoint matches header drawer + theme.json layout rules.
+ */
+
+@media (max-width: 781px) {
+  /* --- Layout tokens (mobile inset system) ---
+	 * --cv1-content-gutter   viewport → section column (.wp-site-blocks)
+	 * --cv1-section-inset    section shell → inner content (text, buttons, panels)
+	 * --cv1-inset-fullbleed  both layers on alignfull band inner containers (hero)
+	 */
+  :root {
+    --cv1-content-gutter: 0.75rem;
+    --cv1-section-inset: var(--cv1-content-gutter);
+    --cv1-inset-fullbleed: calc(
+      var(--cv1-content-gutter) + var(--cv1-section-inset)
+    );
+    --cv1-mobile-gutter: var(--cv1-content-gutter);
+    --cv1-mobile-section-gap: var(--wp--preset--spacing--50, 2.5rem);
+  }
+
+  /* Layer 1 — page edge */
+  body .wp-site-blocks {
+    padding-inline: var(--cv1-content-gutter) !important;
+  }
+
+  /* Layer 1 — no second page gutter on main shells */
+  main .wp-block-post-content,
+  main > .wp-block-group:has(.wp-block-post-title),
+  main > .wp-block-group:has(.cv1-page-title-band__row),
+  main > .cv1-section-subnav {
+    padding-inline: 0 !important;
+  }
+
+  /* Strip editor % padding; section inset is applied deliberately below */
+  main .wp-block-post-content :is(.wp-block-columns, .wp-block-column) {
+    padding-inline: 0 !important;
+  }
+
+  /* Layer 2 — section shells (logical homepage / interior sections) */
+  main
+    .wp-block-post-content
+    > .wp-block-group:not(.alignfull):not(:has(.cv1-embed-region)) {
+    box-sizing: border-box;
+    padding-inline: var(--cv1-section-inset) !important;
+  }
+
+  main
+    .wp-block-post-content
+    > .wp-block-columns:not(.alignfull):not(.has-background):not(
+      :has(.cv1-embed-region)
+    ):not(:has(> .wp-block-column.has-background)) {
+    box-sizing: border-box;
+    padding-inline: var(--cv1-section-inset) !important;
+  }
+
+  /* Layer 2 — orphan blocks between sections (e.g. newsletter H2) */
+  main
+    .wp-block-post-content
+    > :is(
+      .wp-block-heading,
+      .wp-block-paragraph,
+      .wp-block-separator,
+      .wp-block-image,
+      .wp-block-gallery,
+      .wp-block-buttons,
+      .wp-block-embed,
+      .wp-block-html
+    ):not(:has(.cv1-embed-region)) {
+    box-sizing: border-box;
+    padding-inline: var(--cv1-section-inset);
+  }
+
+  /* Layer 2 — panel surfaces (colored cards, promo bands) */
+  main
+    .wp-block-post-content
+    :is(
+      .wp-block-columns.has-background,
+      .wp-block-column.has-background,
+      .wp-block-group.has-background
+    ):not(:has(.cv1-embed-region)) {
+    box-sizing: border-box;
+    padding-block: var(--cv1-section-inset);
+    padding-inline: var(--cv1-section-inset) !important;
+  }
+
+  /* Layer 2 — buttons inside groups (same interior inset as text) */
+  main
+    .wp-block-post-content
+    .wp-block-group:not(.alignfull):not(:has(.cv1-embed-region))
+    > .wp-block-buttons {
+    box-sizing: border-box;
+    padding-inline: var(--cv1-section-inset);
+  }
+
+  /* One inset only — skip when a section shell ancestor already pads inline */
+  main
+    .wp-block-post-content
+    > .wp-block-group:not(.alignfull)
+    > .wp-block-buttons,
+  main
+    .wp-block-post-content
+    > .wp-block-columns:not(.alignfull):not(.has-background):not(
+      :has(.cv1-embed-region)
+    ):not(:has(> .wp-block-column.has-background))
+    .wp-block-buttons,
+  main
+    .wp-block-post-content
+    :is(
+      .wp-block-columns.has-background,
+      .wp-block-column.has-background,
+      .wp-block-group.has-background
+    )
+    .wp-block-buttons {
+    padding-inline: 0;
+  }
+
+  /* Panels inside a padded top-level group: one inset only (not column-card rows) */
+  main
+    .wp-block-post-content
+    > .wp-block-group:not(.alignfull)
+    :is(
+      .wp-block-column.has-background,
+      .wp-block-columns.has-background,
+      .wp-block-group.has-background
+    ) {
+    padding-inline: 0 !important;
+    padding-block: 0;
+  }
+
+  /* Full-width embeds align to page gutter, not section inset */
+  main
+    .wp-block-post-content
+    :is(.wp-block-columns, .wp-block-column, .wp-block-group):has(
+      .cv1-embed-region
+    ) {
+    padding-inline: 0 !important;
+  }
+
+  .cv1-embed-region {
+    margin-inline: 0;
+  }
+
+  /* --- No horizontal page wiggle (tabs, maps, embeds) --- */
+  html,
+  body {
+    max-width: 100%;
+    overflow-x: clip;
+  }
+
+  .wp-site-blocks,
+  main {
+    max-width: 100%;
+    overflow-x: clip;
+  }
+
+  @supports not (overflow: clip) {
+    html,
+    body,
+    .wp-site-blocks,
+    main {
+      overflow-x: hidden;
+    }
+  }
+
+  main > .wp-block-group:has(.wp-block-post-title),
+  main > .cv1-section-subnav,
+  main .wp-block-post-content {
+    box-sizing: border-box;
+    margin-inline: 0;
+    max-width: 100%;
+    width: 100%;
+  }
+
+  /* Outer .wp-site-blocks inset is enough on mobile — avoid stacking with post-content padding */
+  main .wp-block-post-content {
+    padding-inline: 0;
+  }
+
+  /* alignfull inside padded post-content — cancel gutter so hero/footer bands span edge-to-edge */
+  main .wp-block-post-content > .alignfull {
+    margin-inline: calc(-1 * var(--cv1-content-gutter));
+    max-width: calc(100% + 2 * var(--cv1-content-gutter));
+    width: calc(100% + 2 * var(--cv1-content-gutter));
+  }
+
+  main .wp-block-post-content > * {
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  /* --- Section page tabs: wrap (no bleed scroll strip) --- */
+  .cv1-section-subnav,
+  .cv1-section-subnav.alignwide {
+    margin-inline: 0;
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .cv1-section-subnav::after,
+  .cv1-tab-scroll::after {
+    content: none;
+  }
+
+  .cv1-section-subnav__tabs,
+  .cv1-section-subnav__anchors,
+  .cv1-tab-scroll__list {
+    flex-wrap: wrap;
+    gap: 0.35rem 0.5rem;
+    margin-inline: 0;
+    overflow-x: visible;
+    padding-inline: 0;
+  }
+
+  .cv1-section-subnav__item a,
+  .cv1-tab-scroll__item a {
+    white-space: normal;
+  }
+
+  /* --- Stack multi-column rows (generic + named hubs) --- */
+  .cv1-mobile-stack,
+  .cv1-programs-hub.wp-block-columns,
+  main
+    .wp-block-post-content
+    > .wp-block-columns:not(.is-not-stacked-on-mobile) {
+    flex-direction: column !important;
+    gap: var(--wp--preset--spacing--40, 1.5rem) !important;
+  }
+
+  .cv1-mobile-stack > .wp-block-column,
+  .cv1-programs-hub > .wp-block-column,
+  main
+    .wp-block-post-content
+    > .wp-block-columns:not(.is-not-stacked-on-mobile)
+    > .wp-block-column {
+    flex-basis: 100% !important;
+    width: 100% !important;
+  }
+
+  /* --- Embeds & media: scroll inside the box, not the page --- */
+  .cv1-embed-region,
+  .wp-block-html,
+  .wp-block-embed,
+  .wp-block-image,
+  .wp-block-table,
+  .wp-block-columns,
+  .wp-block-column {
+    box-sizing: border-box;
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .cv1-embed-region,
+  .wp-block-html:has(iframe),
+  .wp-block-embed {
+    border: 1px solid var(--wp--preset--color--cv1-border, #1a1a1a);
+    margin-block: var(--wp--preset--spacing--40, 1.5rem);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+  }
+
+  .cv1-embed-region iframe,
+  .wp-block-html iframe,
+  .wp-block-embed iframe {
+    display: block;
+    max-width: none;
+    min-width: 0;
+    width: 100%;
+  }
+
+  .cv1-embed-region--calendar iframe {
+    min-height: 70vh;
+  }
+
+  .cv1-embed-region--airtable iframe {
+    min-height: 520px;
+  }
+
+  main .wp-block-image,
+  main .wp-block-image figure,
+  main .wp-block-gallery,
+  main .wp-block-media-text {
+    max-width: 100%;
+  }
+
+  main .wp-block-image img,
+  main .wp-block-post-content img {
+    height: auto;
+    max-width: 100%;
+    width: auto;
+  }
+
+  main .wp-block-image.aligncenter,
+  main .wp-block-image .aligncenter {
+    display: block;
+    margin-inline: auto;
+  }
+
+  main .wp-block-media-text {
+    grid-template-columns: 1fr !important;
+  }
+
+  main .wp-block-media-text .wp-block-media-text__media,
+  main .wp-block-media-text .wp-block-media-text__content {
+    grid-column: 1;
+    grid-row: auto;
+  }
+
+  .wp-block-table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* --- Typography: tame Site Editor outliers on all pages --- */
+  main
+    .wp-block-post-content
+    > .wp-block-heading:not(.cv1-page-title):not(.cv1-section-heading):not(
+      .cv1-hub-card .wp-block-heading
+    ) {
+    font-size: var(--wp--preset--font-size--large, 1.5rem) !important;
+    text-align: left !important;
+  }
+
+  /* Only top-level orphans — preserve center stacks in groups/columns/hub cards */
+  main .wp-block-post-content > .has-text-align-center {
+    text-align: left !important;
+  }
+
+  /* --- Section pages: tighten title band + subnav rhythm --- */
+  body.cv1-section-page main > .wp-block-group:has(.wp-block-post-title) {
+    margin-block: var(--wp--preset--spacing--40, 1.5rem)
+      var(--wp--preset--spacing--30, 1rem);
+  }
+
+  body.cv1-section-page main > .wp-block-group:has(.cv1-page-title-band__row) {
+    margin-block: 0 var(--wp--preset--spacing--30, 1rem);
+    padding-block: 0.5rem 0;
+  }
+
+  body.cv1-section-page .cv1-section-subnav {
+    margin-block-end: var(--wp--preset--spacing--40, 1.5rem);
+  }
+
+  body.cv1-section-child .cv1-section-subnav {
+    margin-block-end: var(--wp--preset--spacing--30, 1rem);
+  }
+
+  /* --- Hub cards: full-width touch targets --- */
+  .cv1-hub-card {
+    min-height: auto;
+  }
+
+  /* --- Footer: single column scan --- */
+  .cv1-footer .wp-block-columns,
+  footer .wp-block-columns {
+    flex-direction: column;
+  }
+
+  .cv1-footer .wp-block-column,
+  footer .wp-block-column {
+    flex-basis: 100% !important;
+  }
+
+  /* --- Forms: full-width inputs --- */
+  main .wp-block-post-content input:not([type="checkbox"]):not([type="radio"]),
+  main .wp-block-post-content textarea,
+  main .wp-block-post-content select,
+  main .wp-block-post-content .wp-block-button {
+    max-width: 100%;
+    width: 100%;
+  }
+
+  main .wp-block-post-content .wp-block-buttons {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  main .wp-block-post-content .wp-block-buttons > .wp-block-button {
+    width: 100%;
+  }
+
+  /* Hub cards: keep in-card CTAs pill-sized (override full-width form rule above) */
+  .cv1-hub-card .wp-block-button,
+  .cv1-hub-card .wp-block-buttons > .wp-block-button {
+    max-width: 100%;
+    width: auto !important;
+  }
+
+  .cv1-hub-card .wp-block-button__link {
+    box-sizing: border-box;
+    display: inline-block;
+    width: auto !important;
+  }
+
+  /* Section hub intro button can stay full-width on mobile; add space before cards */
+  body.cv1-section-hub .wp-block-post-content > .wp-block-buttons {
+    margin-block-end: var(--wp--preset--spacing--40, 1.5rem);
+  }
+
+  /* --- Hide decorative HostGator grids site-wide on small screens --- */
+  .nfd-grid.nfd-grid-cols-9 {
+    display: none;
+  }
+
+  .nfd-gap-3xl.wp-block-columns {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .nfd-gap-3xl .wp-block-column {
+    flex-basis: 100% !important;
+  }
+
+  /* --- Homepage: hero + impact row --- */
+  .home .cv1-hero-cover,
+  .home .d4c-hero-cover {
+    min-height: auto !important;
+  }
+
+  /* Full-bleed cover band; inner container restores page gutter + section inset */
+  .home .wp-block-post-content > .d4c-hero-cover.alignfull,
+  .home .wp-block-post-content > .cv1-hero-cover.alignfull {
+    box-sizing: border-box;
+    margin-inline: calc(-1 * var(--cv1-content-gutter)) !important;
+    max-width: calc(100% + 2 * var(--cv1-content-gutter)) !important;
+    padding-inline: 0 !important;
+    width: calc(100% + 2 * var(--cv1-content-gutter)) !important;
+  }
+
+  .home .cv1-hero-cover .wp-block-cover__inner-container,
+  .home .d4c-hero-cover .wp-block-cover__inner-container {
+    box-sizing: border-box;
+    margin-inline: auto;
+    max-width: var(--wp--style--global--wide-size, 1280px);
+    padding-block: var(--wp--preset--spacing--50, 2.5rem);
+    padding-inline: var(--cv1-inset-fullbleed);
+    width: 100%;
+  }
+
+  /* Homepage — What we do (service cards inside alignwide group) */
+  .home
+    .wp-block-post-content
+    .wp-block-group.alignwide
+    .wp-block-columns.alignwide.are-vertically-aligned-top
+    > .wp-block-column {
+    align-items: stretch !important;
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  .home
+    .wp-block-post-content
+    .wp-block-group.alignwide
+    .wp-block-columns.alignwide.are-vertically-aligned-top
+    .cv1-service-card {
+    align-items: center !important;
+    align-self: stretch !important;
+    text-align: center !important;
+    width: 100%;
+  }
+
+  .home
+    .wp-block-post-content
+    .wp-block-group.alignwide
+    .cv1-service-card__image {
+    align-self: center !important;
+    margin-inline: auto !important;
+    width: fit-content !important;
+  }
+
+  .home
+    .wp-block-post-content
+    .wp-block-group.alignwide
+    .cv1-service-card__title,
+  .home
+    .wp-block-post-content
+    .wp-block-group.alignwide
+    .cv1-service-card__description {
+    align-self: stretch !important;
+    text-align: center !important;
+    width: 100%;
+  }
+
+  .home
+    .wp-block-post-content
+    .wp-block-group.alignwide
+    .cv1-service-card
+    .wp-block-buttons {
+    align-items: stretch !important;
+    align-self: stretch !important;
+    justify-content: center !important;
+    width: 100%;
+  }
+
+  .home
+    .wp-block-post-content
+    .wp-block-group.alignwide
+    .cv1-service-card
+    .wp-block-button {
+    width: 100%;
+  }
+
+  .home
+    .wp-block-post-content
+    .wp-block-group.alignwide
+    .cv1-service-card
+    .wp-block-button__link {
+    box-sizing: border-box;
+    display: block;
+    text-align: center;
+    width: 100%;
+  }
+
+  /* Other homepage wide groups (unchanged from editor) */
+  .home .wp-block-post-content > .wp-block-group.alignwide .wp-block-buttons {
+    align-items: stretch;
+    align-self: stretch;
+    width: 100%;
+  }
+
+  .home
+    .wp-block-post-content
+    > .wp-block-group.alignwide
+    .wp-block-button__link {
+    box-sizing: border-box;
+    display: block;
+    text-align: center;
+    width: 100%;
+  }
+
+  .home .cv1-hero-cover .wp-block-heading,
+  .home .d4c-hero-cover .wp-block-heading {
+    font-size: var(--wp--preset--font-size--x-large, 2rem) !important;
+  }
+
+  /* Hero CTAs: single column, equal full-width buttons */
+  .home .d4c-hero-cover .wp-block-buttons,
+  .home .cv1-hero-cover .wp-block-buttons {
+    align-items: stretch;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 0.75rem;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .home .d4c-hero-cover .wp-block-buttons > .wp-block-button,
+  .home .cv1-hero-cover .wp-block-buttons > .wp-block-button {
+    flex: none;
+    margin: 0;
+    max-width: 100%;
+    min-width: 0;
+    width: 100%;
+  }
+
+  .home .d4c-hero-cover .wp-block-button__link,
+  .home .cv1-hero-cover .wp-block-button__link {
+    box-sizing: border-box;
+    display: block;
+    min-width: 0;
+    padding-inline: 1rem;
+    text-align: center;
+    width: 100%;
+  }
+
+  /* Airtable / gallery cards outside wrapper (legacy markup) */
+  main .wp-block-post-content .airtable-embed,
+  main .wp-block-post-content [class*="airtable"] {
+    max-width: 100%;
+    overflow-x: auto;
+  }
+}
