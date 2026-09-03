@@ -188,3 +188,27 @@
     padding: 0.28rem 0.7rem;
   }
 }
+
+/* --- Homepage exception: no title band exists on front-page.html, so the
+   mobile-style pill stays visible at desktop widths instead of the title CTA --- */
+
+@media (min-width: 782px) {
+  body.home .cv1-header-cta--header {
+    display: flex !important;
+  }
+
+  body.home .cv1-header-bar__inner {
+    grid-template-columns: auto auto 1fr;
+  }
+
+  body.home .cv1-header-bar__inner > .cv1-header-cta--header {
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: end;
+  }
+
+  body.home .cv1-header-bar__inner > .cv1-nav,
+  body.home .cv1-header-bar__inner > .wp-block-navigation {
+    grid-column: 3;
+  }
+}

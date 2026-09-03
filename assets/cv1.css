@@ -76,9 +76,16 @@ main .wp-block-post-content {
 }
 
 /* WP constrained layout adds root side padding; avoid stacking inside main */
-main .wp-block-post-content .is-layout-constrained {
+main .wp-block-post-content .is-layout-constrained:not(.cv1-callout):not(.is-style-cv1-callout) {
   padding-left: 0;
   padding-right: 0;
+}
+
+/* Callout cards in columns: fill column height for even rows */
+.wp-block-column > .cv1-callout,
+.wp-block-column > .is-style-cv1-callout {
+  box-sizing: border-box;
+  height: 100%;
 }
 
 /* Full-bleed blocks: cancel post-content gutter (alignfull breakout) */
@@ -806,10 +813,14 @@ main .wp-block-post-content > .cv1-resource-rules {
 }
 
 .cv1-callout,
-.is-style-cv1-callout {
+.is-style-cv1-callout,
+main .wp-block-post-content .cv1-callout.is-layout-constrained,
+main .wp-block-post-content .is-style-cv1-callout.is-layout-constrained {
   background-color: var(--wp--preset--color--cv1-surface-callout, #f4f4f4);
-  border: 1px solid var(--wp--preset--color--cv1-border, #1a1a1a);
-  padding: var(--wp--preset--spacing--40, 1.5rem);
+  border: none;
+  border-radius: 12px;
+  box-shadow: var(--wp--preset--shadow--natural, 0 2px 8px rgba(0, 0, 0, 0.12));
+  padding: 1.5rem 2rem;
 }
 
 /* Callout / hub cards: section-heading utility must not add hub-section top margin */
