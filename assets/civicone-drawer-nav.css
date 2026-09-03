@@ -1,0 +1,383 @@
+/**
+ * CivicOne drawer navigation — first-party component (no core overlay overrides).
+ *
+ * Pattern: modal drawer via native <dialog> + disclosure accordions (APG).
+ *
+ * @see civicone-component-library.md
+ */
+
+:root {
+  --civicone-drawer-breakpoint: 781px;
+  --civicone-drawer-width: min(320px, 88vw);
+  --civicone-drawer-gutter: var(--wp--preset--spacing--40, 1.5rem);
+  --civicone-drawer-touch: 44px;
+  --civicone-drawer-border: var(--wp--preset--color--civicone-border, #1a1a1a);
+  --civicone-drawer-duration: 0.22s;
+  --civicone-drawer-fade-duration: 0.25s;
+  --civicone-drawer-ease: cubic-bezier(0.4, 0, 0.2, 1);
+  /* Fixed viewport slot for hamburger + ✕ (tune here only) */
+  --civicone-drawer-toggle-top: 0.375rem;
+  --civicone-drawer-toggle-right: var(--civicone-drawer-gutter);
+  --civicone-header-bar-height: max(
+    var(--civicone-header-logo-size, 80px),
+    calc(
+      var(--civicone-drawer-toggle-top) + var(--civicone-drawer-touch) +
+        var(--civicone-drawer-toggle-top)
+    )
+  );
+}
+
+/* Scroll lock: JS freezes body (see civicone-drawer-nav.js); class is a hook only */
+html.civicone-drawer-open {
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
+html.civicone-drawer-open body {
+  overflow: hidden;
+  overscroll-behavior: none;
+  touch-action: none;
+}
+
+/* Stay above frozen main; dims with ::backdrop like the rest of the page */
+@media (max-width: 781px) {
+  html.civicone-drawer-open .wp-site-blocks > header.wp-block-template-part {
+    isolation: isolate;
+    position: relative;
+    z-index: 1002;
+  }
+
+  html.civicone-drawer-open
+    .wp-site-blocks
+    > header.wp-block-template-part.civicone-drawer-header-pinned {
+    will-change: transform;
+  }
+}
+
+/* --- Visibility: mobile drawer vs desktop nav --- */
+
+.civicone-nav__desktop {
+  display: none;
+}
+
+.civicone-drawer {
+  display: block;
+  flex: 0 0 auto;
+  min-height: var(--civicone-drawer-touch);
+  min-width: var(--civicone-drawer-touch);
+}
+
+@media (min-width: 782px) {
+  .civicone-nav__desktop {
+    display: block;
+    flex: 1 1 auto;
+    margin-left: auto;
+    overflow: visible;
+  }
+
+  .civicone-drawer {
+    display: none;
+  }
+}
+
+/* --- Menu toggle --- */
+
+.civicone-drawer__open,
+.civicone-drawer__close {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  box-sizing: border-box;
+  color: inherit;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  margin: 0;
+  min-height: var(--civicone-drawer-touch);
+  min-width: var(--civicone-drawer-touch);
+  padding: 0;
+}
+
+.civicone-drawer--menu-open .civicone-drawer__open {
+  pointer-events: none;
+  visibility: hidden;
+}
+
+@media (max-width: 781px) {
+  .civicone-drawer__open,
+  .civicone-drawer__close {
+    height: var(--civicone-drawer-touch);
+    position: fixed;
+    right: var(--civicone-drawer-toggle-right);
+    top: var(--civicone-drawer-toggle-top);
+    width: var(--civicone-drawer-touch);
+  }
+
+  .civicone-drawer__open {
+    z-index: 1003;
+  }
+
+  .civicone-drawer__close {
+    z-index: 3;
+  }
+
+  body.admin-bar .civicone-drawer__open,
+  body.admin-bar .civicone-drawer__close {
+    top: calc(46px + var(--civicone-drawer-toggle-top));
+  }
+}
+
+.civicone-drawer__open-icon {
+  background: currentcolor;
+  display: block;
+  height: 2px;
+  position: relative;
+  width: 1.25rem;
+}
+
+.civicone-drawer__open-icon::before,
+.civicone-drawer__open-icon::after {
+  background: currentcolor;
+  content: "";
+  height: 2px;
+  left: 0;
+  position: absolute;
+  width: 100%;
+}
+
+.civicone-drawer__open-icon::before {
+  top: -6px;
+}
+
+.civicone-drawer__open-icon::after {
+  top: 6px;
+}
+
+.civicone-drawer__close-icon {
+  display: block;
+  font-size: 1.35rem;
+  font-weight: 400;
+  line-height: 1;
+}
+
+/* --- Native dialog: one full-viewport scrim + right panel --- */
+
+.civicone-drawer__dialog {
+  background: transparent;
+  border: 0;
+  height: 100%;
+  margin: 0;
+  max-height: 100dvh;
+  max-width: none;
+  overflow: hidden;
+  padding: 0;
+  width: 100%;
+}
+
+/* One dim layer over the full viewport (header + content) */
+.civicone-drawer__dialog::backdrop {
+  background: rgba(0, 0, 0, 0.35);
+  opacity: 0;
+  transition: opacity var(--civicone-drawer-fade-duration) var(--civicone-drawer-ease);
+}
+
+.civicone-drawer__dialog.civicone-drawer__dialog--visible::backdrop {
+  opacity: 1;
+}
+
+@starting-style {
+  .civicone-drawer__dialog.civicone-drawer__dialog--visible::backdrop {
+    opacity: 0;
+  }
+}
+
+.civicone-drawer__overlay {
+  box-sizing: border-box;
+  height: 100%;
+  min-height: 100dvh;
+  position: relative;
+  width: 100%;
+}
+
+/* Click target only — dimming is on ::backdrop */
+.civicone-drawer__scrim {
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  inset: 0;
+  margin: 0;
+  padding: 0;
+  position: fixed;
+  z-index: 1;
+}
+
+.civicone-drawer__panel {
+  background: var(--wp--preset--color--background, #fff);
+  bottom: 0;
+  box-shadow: -2px 0 12px rgba(0, 0, 0, 0.12);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  max-width: var(--civicone-drawer-width);
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: var(--civicone-drawer-width);
+  z-index: 2;
+}
+
+.civicone-drawer__nav {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  padding: var(--civicone-drawer-gutter);
+  padding-block-start: calc(
+    var(--civicone-drawer-toggle-top) + var(--civicone-drawer-touch) +
+      var(--civicone-drawer-gutter)
+  );
+}
+
+/* --- Menu list --- */
+
+.civicone-drawer__list,
+.civicone-drawer__sublist {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.civicone-drawer__item {
+  border-bottom: 1px solid var(--civicone-drawer-border);
+}
+
+.civicone-drawer__item--section {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) var(--civicone-drawer-touch);
+  grid-template-rows: auto auto;
+}
+
+.civicone-drawer__item--section .civicone-drawer__row {
+  grid-column: 1 / -1;
+  grid-row: 1;
+}
+
+.civicone-drawer__link {
+  color: inherit;
+  display: block;
+  font-size: 1.125rem;
+  font-weight: 600;
+  line-height: 1.35;
+  padding-block: 0.65rem;
+  text-align: left;
+  text-decoration: none;
+}
+
+/* Leaf rows: full-width tap target */
+.civicone-drawer__item:not(.civicone-drawer__item--section) > .civicone-drawer__link {
+  width: 100%;
+}
+
+.civicone-drawer__link:hover,
+.civicone-drawer__link:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+.civicone-drawer__link[aria-current="page"] {
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+.civicone-drawer__row {
+  align-items: stretch;
+  display: flex;
+  width: 100%;
+}
+
+/* Section row: link = label width; disclosure fills the rest (large chevron hit area) */
+.civicone-drawer__item--section .civicone-drawer__row .civicone-drawer__link {
+  flex: 0 1 auto;
+  min-width: 0;
+  padding-inline-end: 0.5rem;
+  width: auto;
+}
+
+.civicone-drawer__disclosure {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  color: inherit;
+  cursor: pointer;
+  display: flex;
+  flex: 1 1 auto;
+  justify-content: flex-end;
+  margin: 0;
+  min-height: var(--civicone-drawer-touch);
+  min-width: var(--civicone-drawer-touch);
+  padding: 0;
+  padding-inline-end: 0.125rem;
+}
+
+.civicone-drawer__disclosure-icon {
+  border: solid currentcolor;
+  border-width: 0 2px 2px 0;
+  display: inline-block;
+  height: 0.45rem;
+  transform: rotate(45deg);
+  transition: transform var(--civicone-drawer-duration) var(--civicone-drawer-ease);
+  width: 0.45rem;
+}
+
+.civicone-drawer__disclosure[aria-expanded="true"] .civicone-drawer__disclosure-icon {
+  transform: rotate(-135deg);
+}
+
+.civicone-drawer__sublist {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  margin: 0;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  padding-block: 0;
+  padding-inline: 0 0 0 0.75rem;
+  transition:
+    max-height var(--civicone-drawer-duration) var(--civicone-drawer-ease),
+    opacity calc(var(--civicone-drawer-duration) * 0.85) var(--civicone-drawer-ease),
+    padding-block var(--civicone-drawer-duration) var(--civicone-drawer-ease);
+  visibility: hidden;
+}
+
+.civicone-drawer__sublist:not([hidden]) {
+  max-height: 28rem;
+  opacity: 1;
+  padding-block: 0.35rem 0.5rem;
+  visibility: visible;
+}
+
+.civicone-drawer__sublist[hidden] {
+  display: block;
+}
+
+.civicone-drawer__subitem .civicone-drawer__link {
+  font-size: 1rem;
+  font-weight: 500;
+  padding-block: 0.35rem;
+  width: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --civicone-drawer-duration: 0.01ms;
+    --civicone-drawer-fade-duration: 0.01ms;
+  }
+
+  .civicone-drawer__dialog::backdrop {
+    opacity: 1;
+    transition: none;
+  }
+
+  .civicone-drawer__disclosure-icon,
+  .civicone-drawer__sublist {
+    transition: none;
+  }
+}

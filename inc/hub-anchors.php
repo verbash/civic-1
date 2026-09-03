@@ -2,9 +2,9 @@
 /**
  * Hub “On this page” anchor strip — fillable block pattern, hoisted into section subnav.
  *
- * Editors insert the civic-1/hub-on-page-anchors pattern on a section hub page.
- * The group uses class cv1-hub-on-page-anchors; links may live in a list or paragraph.
- * Front-end: links are parsed and rendered in .cv1-section-subnav__anchors; the group is hidden.
+ * Editors insert the civicone/hub-on-page-anchors pattern on a section hub page.
+ * The group uses class civicone-hub-on-page-anchors; links may live in a list or paragraph.
+ * Front-end: links are parsed and rendered in .civicone-section-subnav__anchors; the group is hidden.
  *
  * @package Civic1
  */
@@ -27,7 +27,7 @@ function civic_1_is_hub_on_page_anchors_block( array $block ): bool {
 
 	$class = (string) ( $block['attrs']['className'] ?? '' );
 
-	return str_contains( $class, 'cv1-hub-on-page-anchors' );
+	return str_contains( $class, 'civicone-hub-on-page-anchors' );
 }
 
 /**

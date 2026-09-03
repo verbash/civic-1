@@ -17,13 +17,13 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @return list<array{slug: string, label: string}>
  */
-function cv1_get_primary_nav_sections(): array {
+function civicone_get_primary_nav_sections(): array {
 	return array_map(
 		static fn( array $section ): array => array(
 			'slug'  => (string) $section['slug'],
 			'label' => (string) $section['label'],
 		),
-		cv1_get_section_configs()
+		civicone_get_section_configs()
 	);
 }
 
@@ -32,13 +32,13 @@ function cv1_get_primary_nav_sections(): array {
  *
  * @return array{slug: string, label: string}|null
  */
-function cv1_get_primary_nav_section_for_current_page(): ?array {
-	$section = cv1_get_current_section_config();
+function civicone_get_primary_nav_section_for_current_page(): ?array {
+	$section = civicone_get_current_section_config();
 	if ( null === $section ) {
 		return null;
 	}
 
-	if ( cv1_is_section_hub( $section ) ) {
+	if ( civicone_is_section_hub( $section ) ) {
 		return null;
 	}
 
@@ -54,7 +54,7 @@ function cv1_get_primary_nav_section_for_current_page(): ?array {
  * @param string $content Block HTML.
  * @param array  $block   Block data.
  */
-function cv1_stabilize_post_title_markup( string $content, array $block ): string {
+function civicone_stabilize_post_title_markup( string $content, array $block ): string {
 	if ( ( $block['blockName'] ?? '' ) !== 'core/post-title' || ! is_page() ) {
 		return $content;
 	}
@@ -67,7 +67,7 @@ function cv1_stabilize_post_title_markup( string $content, array $block ): strin
 		1
 	);
 }
-add_filter( 'render_block', 'cv1_stabilize_post_title_markup', 7, 2 );
+add_filter( 'render_block', 'civicone_stabilize_post_title_markup', 7, 2 );
 
 /**
  * Shared H1 class on all page title bands.
@@ -75,7 +75,7 @@ add_filter( 'render_block', 'cv1_stabilize_post_title_markup', 7, 2 );
  * @param string $content Block HTML.
  * @param array  $block   Block data.
  */
-function cv1_render_section_h1_class( string $content, array $block ): string {
+function civicone_render_section_h1_class( string $content, array $block ): string {
 	if ( ( $block['blockName'] ?? '' ) !== 'core/post-title' || ! is_page() ) {
 		return $content;
 	}
@@ -86,14 +86,14 @@ function cv1_render_section_h1_class( string $content, array $block ): string {
 		return $content;
 	}
 
-	if ( str_contains( $content, 'cv1-section-h1' ) ) {
+	if ( str_contains( $content, 'civicone-section-h1' ) ) {
 		return $content;
 	}
 
 	if ( preg_match( '/class="([^"]*wp-block-post-title[^"]*)"/', $content ) ) {
 		return (string) preg_replace(
 			'/class="([^"]*wp-block-post-title[^"]*)"/',
-			'class="$1 cv1-section-h1"',
+			'class="$1 civicone-section-h1"',
 			$content,
 			1
 		);
@@ -101,12 +101,12 @@ function cv1_render_section_h1_class( string $content, array $block ): string {
 
 	return (string) preg_replace(
 		'/(<h1\b)/',
-		'$1 class="wp-block-post-title cv1-section-h1"',
+		'$1 class="wp-block-post-title civicone-section-h1"',
 		$content,
 		1
 	);
 }
-add_filter( 'render_block', 'cv1_render_section_h1_class', 8, 2 );
+add_filter( 'render_block', 'civicone_render_section_h1_class', 8, 2 );
 
 /**
  * Show the primary nav section label in the template title band on child pages.
@@ -114,12 +114,12 @@ add_filter( 'render_block', 'cv1_render_section_h1_class', 8, 2 );
  * @param string $content Block HTML.
  * @param array  $block   Block data.
  */
-function cv1_render_primary_section_post_title( string $content, array $block ): string {
+function civicone_render_primary_section_post_title( string $content, array $block ): string {
 	if ( ( $block['blockName'] ?? '' ) !== 'core/post-title' ) {
 		return $content;
 	}
 
-	$section = cv1_get_primary_nav_section_for_current_page();
+	$section = civicone_get_primary_nav_section_for_current_page();
 	if ( null === $section ) {
 		return $content;
 	}
@@ -133,7 +133,7 @@ function cv1_render_primary_section_post_title( string $content, array $block ):
 		1
 	);
 }
-add_filter( 'render_block', 'cv1_render_primary_section_post_title', 10, 2 );
+add_filter( 'render_block', 'civicone_render_primary_section_post_title', 10, 2 );
 
 /**
  * Body classes for section pages.
@@ -141,21 +141,21 @@ add_filter( 'render_block', 'cv1_render_primary_section_post_title', 10, 2 );
  * @param string[] $classes Body classes.
  * @return string[]
  */
-function cv1_section_body_class( array $classes ): array {
-	$section = cv1_get_current_section_config();
+function civicone_section_body_class( array $classes ): array {
+	$section = civicone_get_current_section_config();
 	if ( null === $section ) {
 		return $classes;
 	}
 
-	$classes[] = 'cv1-section-page';
-	$classes[] = 'cv1-section-page--' . sanitize_html_class( (string) $section['slug'] );
+	$classes[] = 'civicone-section-page';
+	$classes[] = 'civicone-section-page--' . sanitize_html_class( (string) $section['slug'] );
 
-	if ( cv1_is_section_hub( $section ) ) {
-		$classes[] = 'cv1-section-hub';
+	if ( civicone_is_section_hub( $section ) ) {
+		$classes[] = 'civicone-section-hub';
 	} else {
-		$classes[] = 'cv1-section-child';
+		$classes[] = 'civicone-section-child';
 	}
 
 	return $classes;
 }
-add_filter( 'body_class', 'cv1_section_body_class' );
+add_filter( 'body_class', 'civicone_section_body_class' );

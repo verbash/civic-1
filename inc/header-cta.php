@@ -1,11 +1,11 @@
 <?php
 /**
- * Civic-1 component: Header inline donate CTA.
+ * CivicOne component: Header inline donate CTA.
  *
  * Mobile: in header bar between logo and drawer (after nav markup).
  * Desktop: inline with template post-title H1 (below header border).
  *
- * @see cv1-component-library.md → Header CTA
+ * @see civicone-component-library.md → Header CTA
  *
  * @package Civic1
  */
@@ -21,17 +21,17 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @return array{text: string, button: string, url: string}
  */
-function cv1_header_cta_config(): array {
+function civicone_header_cta_config(): array {
 	return array(
 		'text'   => (string) apply_filters(
-			'cv1_header_cta_text',
-			__( 'Help support our efforts!', 'civic-1' )
+			'civicone_header_cta_text',
+			__( 'Help support our efforts!', 'civicone' )
 		),
 		'button' => (string) apply_filters(
-			'cv1_header_cta_button_label',
-			__( 'Donate to D4C', 'civic-1' )
+			'civicone_header_cta_button_label',
+			__( 'Donate to D4C', 'civicone' )
 		),
-		'url'    => (string) apply_filters( 'cv1_header_cta_url', cv1_get_header_cta_donate_url_default() ),
+		'url'    => (string) apply_filters( 'civicone_header_cta_url', civicone_get_header_cta_donate_url_default() ),
 	);
 }
 
@@ -40,28 +40,28 @@ function cv1_header_cta_config(): array {
  *
  * @param string $placement `header` (mobile bar) or `title` (desktop H1 band).
  */
-function cv1_render_header_cta( string $placement = 'header' ): string {
-	$config = cv1_header_cta_config();
+function civicone_render_header_cta( string $placement = 'header' ): string {
+	$config = civicone_header_cta_config();
 
 	if ( '' === $config['url'] || '' === $config['button'] ) {
 		return '';
 	}
 
 	$placement = sanitize_html_class( $placement );
-	$class     = 'cv1-header-cta cv1-header-cta--' . $placement;
+	$class     = 'civicone-header-cta civicone-header-cta--' . $placement;
 
 	$text_html = '';
 	if ( '' !== $config['text'] ) {
 		$text_html = sprintf(
-			'<p class="cv1-header-cta__text">%s</p>',
+			'<p class="civicone-header-cta__text">%s</p>',
 			esc_html( $config['text'] )
 		);
 	}
 
 	return sprintf(
-		'<div class="%1$s" role="region" aria-label="%2$s">%3$s<a class="cv1-header-cta__button" href="%4$s">%5$s</a></div>',
+		'<div class="%1$s" role="region" aria-label="%2$s">%3$s<a class="civicone-header-cta__button" href="%4$s">%5$s</a></div>',
 		esc_attr( $class ),
-		esc_attr__( 'Support the coalition', 'civic-1' ),
+		esc_attr__( 'Support the coalition', 'civicone' ),
 		$text_html,
 		esc_url( $config['url'] ),
 		esc_html( $config['button'] )
@@ -74,19 +74,19 @@ function cv1_render_header_cta( string $placement = 'header' ): string {
  * @param string               $block_content Block HTML.
  * @param array<string, mixed> $block         Parsed block.
  */
-function cv1_filter_primary_navigation_append_cta( string $block_content, array $block ): string {
-	if ( ! function_exists( 'cv1_is_primary_header_navigation' ) || ! cv1_is_primary_header_navigation( $block ) ) {
+function civicone_filter_primary_navigation_append_cta( string $block_content, array $block ): string {
+	if ( ! function_exists( 'civicone_is_primary_header_navigation' ) || ! civicone_is_primary_header_navigation( $block ) ) {
 		return $block_content;
 	}
 
-	$cta = cv1_render_header_cta( 'header' );
-	if ( '' === $cta || str_contains( $block_content, 'cv1-header-cta--header' ) ) {
+	$cta = civicone_render_header_cta( 'header' );
+	if ( '' === $cta || str_contains( $block_content, 'civicone-header-cta--header' ) ) {
 		return $block_content;
 	}
 
 	return $block_content . $cta;
 }
-add_filter( 'render_block', 'cv1_filter_primary_navigation_append_cta', 15, 2 );
+add_filter( 'render_block', 'civicone_filter_primary_navigation_append_cta', 15, 2 );
 
 /**
  * Desktop: CTA inline with template post-title H1 (below header rule).
@@ -94,7 +94,7 @@ add_filter( 'render_block', 'cv1_filter_primary_navigation_append_cta', 15, 2 );
  * @param string               $block_content Block HTML.
  * @param array<string, mixed> $block         Parsed block.
  */
-function cv1_filter_page_title_band_inline_cta( string $block_content, array $block ): string {
+function civicone_filter_page_title_band_inline_cta( string $block_content, array $block ): string {
 	if ( ( $block['blockName'] ?? '' ) !== 'core/group' ) {
 		return $block_content;
 	}
@@ -107,23 +107,23 @@ function cv1_filter_page_title_band_inline_cta( string $block_content, array $bl
 		return $block_content;
 	}
 
-	if ( str_contains( $block_content, 'cv1-page-title-band__row' ) ) {
+	if ( str_contains( $block_content, 'civicone-page-title-band__row' ) ) {
 		return $block_content;
 	}
 
-	$cta = cv1_render_header_cta( 'title' );
+	$cta = civicone_render_header_cta( 'title' );
 	if ( '' === $cta ) {
 		return $block_content;
 	}
 
 	$updated = (string) preg_replace(
 		'/(<h1[^>]*class="[^"]*wp-block-post-title[^"]*"[^>]*>.*?<\/h1>)/s',
-		'<div class="cv1-page-title-band__row">$1' . $cta . '</div>',
+		'<div class="civicone-page-title-band__row">$1' . $cta . '</div>',
 		$block_content,
 		1
 	);
 
 	return $updated !== $block_content ? $updated : $block_content;
 }
-add_filter( 'render_block', 'cv1_filter_page_title_band_inline_cta', 11, 2 );
+add_filter( 'render_block', 'civicone_filter_page_title_band_inline_cta', 11, 2 );
 

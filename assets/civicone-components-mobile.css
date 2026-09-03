@@ -6,30 +6,30 @@
 
 @media (max-width: 781px) {
   /* --- Layout tokens (mobile inset system) ---
-	 * --cv1-content-gutter   viewport → section column (.wp-site-blocks)
-	 * --cv1-section-inset    section shell → inner content (text, buttons, panels)
-	 * --cv1-inset-fullbleed  both layers on alignfull band inner containers (hero)
+	 * --civicone-content-gutter   viewport → section column (.wp-site-blocks)
+	 * --civicone-section-inset    section shell → inner content (text, buttons, panels)
+	 * --civicone-inset-fullbleed  both layers on alignfull band inner containers (hero)
 	 */
   :root {
-    --cv1-content-gutter: 0.75rem;
-    --cv1-section-inset: var(--cv1-content-gutter);
-    --cv1-inset-fullbleed: calc(
-      var(--cv1-content-gutter) + var(--cv1-section-inset)
+    --civicone-content-gutter: 0.75rem;
+    --civicone-section-inset: var(--civicone-content-gutter);
+    --civicone-inset-fullbleed: calc(
+      var(--civicone-content-gutter) + var(--civicone-section-inset)
     );
-    --cv1-mobile-gutter: var(--cv1-content-gutter);
-    --cv1-mobile-section-gap: var(--wp--preset--spacing--50, 2.5rem);
+    --civicone-mobile-gutter: var(--civicone-content-gutter);
+    --civicone-mobile-section-gap: var(--wp--preset--spacing--50, 2.5rem);
   }
 
   /* Layer 1 — page edge */
   body .wp-site-blocks {
-    padding-inline: var(--cv1-content-gutter) !important;
+    padding-inline: var(--civicone-content-gutter) !important;
   }
 
   /* Layer 1 — no second page gutter on main shells */
   main .wp-block-post-content,
   main > .wp-block-group:has(.wp-block-post-title),
-  main > .wp-block-group:has(.cv1-page-title-band__row),
-  main > .cv1-section-subnav {
+  main > .wp-block-group:has(.civicone-page-title-band__row),
+  main > .civicone-section-subnav {
     padding-inline: 0 !important;
   }
 
@@ -41,18 +41,18 @@
   /* Layer 2 — section shells (logical homepage / interior sections) */
   main
     .wp-block-post-content
-    > .wp-block-group:not(.alignfull):not(:has(.cv1-embed-region)) {
+    > .wp-block-group:not(.alignfull):not(:has(.civicone-embed-region)) {
     box-sizing: border-box;
-    padding-inline: var(--cv1-section-inset) !important;
+    padding-inline: var(--civicone-section-inset) !important;
   }
 
   main
     .wp-block-post-content
     > .wp-block-columns:not(.alignfull):not(.has-background):not(
-      :has(.cv1-embed-region)
+      :has(.civicone-embed-region)
     ):not(:has(> .wp-block-column.has-background)) {
     box-sizing: border-box;
-    padding-inline: var(--cv1-section-inset) !important;
+    padding-inline: var(--civicone-section-inset) !important;
   }
 
   /* Layer 2 — orphan blocks between sections (e.g. newsletter H2) */
@@ -67,9 +67,9 @@
       .wp-block-buttons,
       .wp-block-embed,
       .wp-block-html
-    ):not(:has(.cv1-embed-region)) {
+    ):not(:has(.civicone-embed-region)) {
     box-sizing: border-box;
-    padding-inline: var(--cv1-section-inset);
+    padding-inline: var(--civicone-section-inset);
   }
 
   /* Layer 2 — panel surfaces (colored cards, promo bands) */
@@ -79,19 +79,19 @@
       .wp-block-columns.has-background,
       .wp-block-column.has-background,
       .wp-block-group.has-background
-    ):not(:has(.cv1-embed-region)) {
+    ):not(:has(.civicone-embed-region)) {
     box-sizing: border-box;
-    padding-block: var(--cv1-section-inset);
-    padding-inline: var(--cv1-section-inset) !important;
+    padding-block: var(--civicone-section-inset);
+    padding-inline: var(--civicone-section-inset) !important;
   }
 
   /* Layer 2 — buttons inside groups (same interior inset as text) */
   main
     .wp-block-post-content
-    .wp-block-group:not(.alignfull):not(:has(.cv1-embed-region))
+    .wp-block-group:not(.alignfull):not(:has(.civicone-embed-region))
     > .wp-block-buttons {
     box-sizing: border-box;
-    padding-inline: var(--cv1-section-inset);
+    padding-inline: var(--civicone-section-inset);
   }
 
   /* One inset only — skip when a section shell ancestor already pads inline */
@@ -102,7 +102,7 @@
   main
     .wp-block-post-content
     > .wp-block-columns:not(.alignfull):not(.has-background):not(
-      :has(.cv1-embed-region)
+      :has(.civicone-embed-region)
     ):not(:has(> .wp-block-column.has-background))
     .wp-block-buttons,
   main
@@ -133,12 +133,12 @@
   main
     .wp-block-post-content
     :is(.wp-block-columns, .wp-block-column, .wp-block-group):has(
-      .cv1-embed-region
+      .civicone-embed-region
     ) {
     padding-inline: 0 !important;
   }
 
-  .cv1-embed-region {
+  .civicone-embed-region {
     margin-inline: 0;
   }
 
@@ -165,7 +165,7 @@
   }
 
   main > .wp-block-group:has(.wp-block-post-title),
-  main > .cv1-section-subnav,
+  main > .civicone-section-subnav,
   main .wp-block-post-content {
     box-sizing: border-box;
     margin-inline: 0;
@@ -180,9 +180,9 @@
 
   /* alignfull inside padded post-content — cancel gutter so hero/footer bands span edge-to-edge */
   main .wp-block-post-content > .alignfull {
-    margin-inline: calc(-1 * var(--cv1-content-gutter));
-    max-width: calc(100% + 2 * var(--cv1-content-gutter));
-    width: calc(100% + 2 * var(--cv1-content-gutter));
+    margin-inline: calc(-1 * var(--civicone-content-gutter));
+    max-width: calc(100% + 2 * var(--civicone-content-gutter));
+    width: calc(100% + 2 * var(--civicone-content-gutter));
   }
 
   main .wp-block-post-content > * {
@@ -191,21 +191,21 @@
   }
 
   /* --- Section page tabs: wrap (no bleed scroll strip) --- */
-  .cv1-section-subnav,
-  .cv1-section-subnav.alignwide {
+  .civicone-section-subnav,
+  .civicone-section-subnav.alignwide {
     margin-inline: 0;
     max-width: 100%;
     width: 100%;
   }
 
-  .cv1-section-subnav::after,
-  .cv1-tab-scroll::after {
+  .civicone-section-subnav::after,
+  .civicone-tab-scroll::after {
     content: none;
   }
 
-  .cv1-section-subnav__tabs,
-  .cv1-section-subnav__anchors,
-  .cv1-tab-scroll__list {
+  .civicone-section-subnav__tabs,
+  .civicone-section-subnav__anchors,
+  .civicone-tab-scroll__list {
     flex-wrap: wrap;
     gap: 0.35rem 0.5rem;
     margin-inline: 0;
@@ -213,14 +213,14 @@
     padding-inline: 0;
   }
 
-  .cv1-section-subnav__item a,
-  .cv1-tab-scroll__item a {
+  .civicone-section-subnav__item a,
+  .civicone-tab-scroll__item a {
     white-space: normal;
   }
 
   /* --- Stack multi-column rows (generic + named hubs) --- */
-  .cv1-mobile-stack,
-  .cv1-programs-hub.wp-block-columns,
+  .civicone-mobile-stack,
+  .civicone-programs-hub.wp-block-columns,
   main
     .wp-block-post-content
     > .wp-block-columns:not(.is-not-stacked-on-mobile) {
@@ -228,8 +228,8 @@
     gap: var(--wp--preset--spacing--40, 1.5rem) !important;
   }
 
-  .cv1-mobile-stack > .wp-block-column,
-  .cv1-programs-hub > .wp-block-column,
+  .civicone-mobile-stack > .wp-block-column,
+  .civicone-programs-hub > .wp-block-column,
   main
     .wp-block-post-content
     > .wp-block-columns:not(.is-not-stacked-on-mobile)
@@ -239,7 +239,7 @@
   }
 
   /* --- Embeds & media: scroll inside the box, not the page --- */
-  .cv1-embed-region,
+  .civicone-embed-region,
   .wp-block-html,
   .wp-block-embed,
   .wp-block-image,
@@ -251,17 +251,17 @@
     min-width: 0;
   }
 
-  .cv1-embed-region,
+  .civicone-embed-region,
   .wp-block-html:has(iframe),
   .wp-block-embed {
-    border: 1px solid var(--wp--preset--color--cv1-border, #1a1a1a);
+    border: 1px solid var(--wp--preset--color--civicone-border, #1a1a1a);
     margin-block: var(--wp--preset--spacing--40, 1.5rem);
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     overscroll-behavior-x: contain;
   }
 
-  .cv1-embed-region iframe,
+  .civicone-embed-region iframe,
   .wp-block-html iframe,
   .wp-block-embed iframe {
     display: block;
@@ -270,11 +270,11 @@
     width: 100%;
   }
 
-  .cv1-embed-region--calendar iframe {
+  .civicone-embed-region--calendar iframe {
     min-height: 70vh;
   }
 
-  .cv1-embed-region--airtable iframe {
+  .civicone-embed-region--airtable iframe {
     min-height: 520px;
   }
 
@@ -317,8 +317,8 @@
   /* --- Typography: tame Site Editor outliers on all pages --- */
   main
     .wp-block-post-content
-    > .wp-block-heading:not(.cv1-page-title):not(.cv1-section-heading):not(
-      .cv1-hub-card .wp-block-heading
+    > .wp-block-heading:not(.civicone-page-title):not(.civicone-section-heading):not(
+      .civicone-hub-card .wp-block-heading
     ) {
     font-size: var(--wp--preset--font-size--large, 1.5rem) !important;
     text-align: left !important;
@@ -330,36 +330,36 @@
   }
 
   /* --- Section pages: tighten title band + subnav rhythm --- */
-  body.cv1-section-page main > .wp-block-group:has(.wp-block-post-title) {
+  body.civicone-section-page main > .wp-block-group:has(.wp-block-post-title) {
     margin-block: var(--wp--preset--spacing--40, 1.5rem)
       var(--wp--preset--spacing--30, 1rem);
   }
 
-  body.cv1-section-page main > .wp-block-group:has(.cv1-page-title-band__row) {
+  body.civicone-section-page main > .wp-block-group:has(.civicone-page-title-band__row) {
     margin-block: 0 var(--wp--preset--spacing--30, 1rem);
     padding-block: 0.5rem 0;
   }
 
-  body.cv1-section-page .cv1-section-subnav {
+  body.civicone-section-page .civicone-section-subnav {
     margin-block-end: var(--wp--preset--spacing--40, 1.5rem);
   }
 
-  body.cv1-section-child .cv1-section-subnav {
+  body.civicone-section-child .civicone-section-subnav {
     margin-block-end: var(--wp--preset--spacing--30, 1rem);
   }
 
   /* --- Hub cards: full-width touch targets --- */
-  .cv1-hub-card {
+  .civicone-hub-card {
     min-height: auto;
   }
 
   /* --- Footer: single column scan --- */
-  .cv1-footer .wp-block-columns,
+  .civicone-footer .wp-block-columns,
   footer .wp-block-columns {
     flex-direction: column;
   }
 
-  .cv1-footer .wp-block-column,
+  .civicone-footer .wp-block-column,
   footer .wp-block-column {
     flex-basis: 100% !important;
   }
@@ -383,20 +383,20 @@
   }
 
   /* Hub cards: keep in-card CTAs pill-sized (override full-width form rule above) */
-  .cv1-hub-card .wp-block-button,
-  .cv1-hub-card .wp-block-buttons > .wp-block-button {
+  .civicone-hub-card .wp-block-button,
+  .civicone-hub-card .wp-block-buttons > .wp-block-button {
     max-width: 100%;
     width: auto !important;
   }
 
-  .cv1-hub-card .wp-block-button__link {
+  .civicone-hub-card .wp-block-button__link {
     box-sizing: border-box;
     display: inline-block;
     width: auto !important;
   }
 
   /* Section hub intro button can stay full-width on mobile; add space before cards */
-  body.cv1-section-hub .wp-block-post-content > .wp-block-buttons {
+  body.civicone-section-hub .wp-block-post-content > .wp-block-buttons {
     margin-block-end: var(--wp--preset--spacing--40, 1.5rem);
   }
 
@@ -415,28 +415,28 @@
   }
 
   /* --- Homepage: hero + impact row --- */
-  .home .cv1-hero-cover,
+  .home .civicone-hero-cover,
   .home .d4c-hero-cover {
     min-height: auto !important;
   }
 
   /* Full-bleed cover band; inner container restores page gutter + section inset */
   .home .wp-block-post-content > .d4c-hero-cover.alignfull,
-  .home .wp-block-post-content > .cv1-hero-cover.alignfull {
+  .home .wp-block-post-content > .civicone-hero-cover.alignfull {
     box-sizing: border-box;
-    margin-inline: calc(-1 * var(--cv1-content-gutter)) !important;
-    max-width: calc(100% + 2 * var(--cv1-content-gutter)) !important;
+    margin-inline: calc(-1 * var(--civicone-content-gutter)) !important;
+    max-width: calc(100% + 2 * var(--civicone-content-gutter)) !important;
     padding-inline: 0 !important;
-    width: calc(100% + 2 * var(--cv1-content-gutter)) !important;
+    width: calc(100% + 2 * var(--civicone-content-gutter)) !important;
   }
 
-  .home .cv1-hero-cover .wp-block-cover__inner-container,
+  .home .civicone-hero-cover .wp-block-cover__inner-container,
   .home .d4c-hero-cover .wp-block-cover__inner-container {
     box-sizing: border-box;
     margin-inline: auto;
     max-width: var(--wp--style--global--wide-size, 1280px);
     padding-block: var(--wp--preset--spacing--50, 2.5rem);
-    padding-inline: var(--cv1-inset-fullbleed);
+    padding-inline: var(--civicone-inset-fullbleed);
     width: 100%;
   }
 
@@ -455,7 +455,7 @@
     .wp-block-post-content
     .wp-block-group.alignwide
     .wp-block-columns.alignwide.are-vertically-aligned-top
-    .cv1-service-card {
+    .civicone-service-card {
     align-items: center !important;
     align-self: stretch !important;
     text-align: center !important;
@@ -465,7 +465,7 @@
   .home
     .wp-block-post-content
     .wp-block-group.alignwide
-    .cv1-service-card__image {
+    .civicone-service-card__image {
     align-self: center !important;
     margin-inline: auto !important;
     width: fit-content !important;
@@ -474,11 +474,11 @@
   .home
     .wp-block-post-content
     .wp-block-group.alignwide
-    .cv1-service-card__title,
+    .civicone-service-card__title,
   .home
     .wp-block-post-content
     .wp-block-group.alignwide
-    .cv1-service-card__description {
+    .civicone-service-card__description {
     align-self: stretch !important;
     text-align: center !important;
     width: 100%;
@@ -487,7 +487,7 @@
   .home
     .wp-block-post-content
     .wp-block-group.alignwide
-    .cv1-service-card
+    .civicone-service-card
     .wp-block-buttons {
     align-items: stretch !important;
     align-self: stretch !important;
@@ -498,7 +498,7 @@
   .home
     .wp-block-post-content
     .wp-block-group.alignwide
-    .cv1-service-card
+    .civicone-service-card
     .wp-block-button {
     width: 100%;
   }
@@ -506,7 +506,7 @@
   .home
     .wp-block-post-content
     .wp-block-group.alignwide
-    .cv1-service-card
+    .civicone-service-card
     .wp-block-button__link {
     box-sizing: border-box;
     display: block;
@@ -531,14 +531,14 @@
     width: 100%;
   }
 
-  .home .cv1-hero-cover .wp-block-heading,
+  .home .civicone-hero-cover .wp-block-heading,
   .home .d4c-hero-cover .wp-block-heading {
     font-size: var(--wp--preset--font-size--x-large, 2rem) !important;
   }
 
   /* Hero CTAs: single column, equal full-width buttons */
   .home .d4c-hero-cover .wp-block-buttons,
-  .home .cv1-hero-cover .wp-block-buttons {
+  .home .civicone-hero-cover .wp-block-buttons {
     align-items: stretch;
     flex-direction: column;
     flex-wrap: nowrap;
@@ -548,7 +548,7 @@
   }
 
   .home .d4c-hero-cover .wp-block-buttons > .wp-block-button,
-  .home .cv1-hero-cover .wp-block-buttons > .wp-block-button {
+  .home .civicone-hero-cover .wp-block-buttons > .wp-block-button {
     flex: none;
     margin: 0;
     max-width: 100%;
@@ -557,7 +557,7 @@
   }
 
   .home .d4c-hero-cover .wp-block-button__link,
-  .home .cv1-hero-cover .wp-block-button__link {
+  .home .civicone-hero-cover .wp-block-button__link {
     box-sizing: border-box;
     display: block;
     min-width: 0;

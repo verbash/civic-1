@@ -1,6 +1,6 @@
 <?php
 /**
- * Civic-1 — load components, register assets, theme integration hooks.
+ * CivicOne — load components, register assets, theme integration hooks.
  *
  * @package Civic1
  */
@@ -25,37 +25,37 @@ require_once CIVIC_1_DIR . '/inc/heading-styles.php';
 require_once CIVIC_1_DIR . '/inc/patterns.php';
 
 /**
- * Enqueue Civic-1 component stylesheets (drawer, mobile, CTA).
+ * Enqueue CivicOne component stylesheets (drawer, mobile, CTA).
  */
 function civic_1_enqueue_component_styles(): void {
-	$deps_base = array( 'civic-1' );
+	$deps_base = array( 'civicone' );
 
-	$mobile = CIVIC_1_DIR . '/assets/cv1-components-mobile.css';
+	$mobile = CIVIC_1_DIR . '/assets/civicone-components-mobile.css';
 	if ( file_exists( $mobile ) ) {
 		wp_enqueue_style(
-			'civic-1-mobile',
-			CIVIC_1_URL . '/assets/cv1-components-mobile.css',
+			'civicone-mobile',
+			CIVIC_1_URL . '/assets/civicone-components-mobile.css',
 			$deps_base,
 			(string) filemtime( $mobile )
 		);
 	}
 
-	$drawer = CIVIC_1_DIR . '/assets/cv1-drawer-nav.css';
-	if ( file_exists( $drawer ) && function_exists( 'cv1_should_load_drawer_nav' ) && cv1_should_load_drawer_nav() ) {
+	$drawer = CIVIC_1_DIR . '/assets/civicone-drawer-nav.css';
+	if ( file_exists( $drawer ) && function_exists( 'civicone_should_load_drawer_nav' ) && civicone_should_load_drawer_nav() ) {
 		wp_enqueue_style(
-			'cv1-drawer-nav',
-			CIVIC_1_URL . '/assets/cv1-drawer-nav.css',
+			'civicone-drawer-nav',
+			CIVIC_1_URL . '/assets/civicone-drawer-nav.css',
 			$deps_base,
 			(string) filemtime( $drawer )
 		);
 	}
 
-	$cta = CIVIC_1_DIR . '/assets/cv1-header-cta.css';
+	$cta = CIVIC_1_DIR . '/assets/civicone-header-cta.css';
 	if ( file_exists( $cta ) ) {
 		wp_enqueue_style(
-			'cv1-header-cta',
-			CIVIC_1_URL . '/assets/cv1-header-cta.css',
-			array( 'civic-1', 'cv1-critical-header' ),
+			'civicone-header-cta',
+			CIVIC_1_URL . '/assets/civicone-header-cta.css',
+			array( 'civicone', 'civicone-critical-header' ),
 			(string) filemtime( $cta )
 		);
 	}
@@ -66,18 +66,18 @@ add_action( 'wp_enqueue_scripts', 'civic_1_enqueue_component_styles', 15 );
  * Drawer navigation script.
  */
 function civic_1_enqueue_component_scripts(): void {
-	if ( ! function_exists( 'cv1_should_load_drawer_nav' ) || ! cv1_should_load_drawer_nav() ) {
+	if ( ! function_exists( 'civicone_should_load_drawer_nav' ) || ! civicone_should_load_drawer_nav() ) {
 		return;
 	}
 
-	$js = CIVIC_1_DIR . '/assets/cv1-drawer-nav.js';
+	$js = CIVIC_1_DIR . '/assets/civicone-drawer-nav.js';
 	if ( ! file_exists( $js ) ) {
 		return;
 	}
 
 	wp_enqueue_script(
-		'cv1-drawer-nav',
-		CIVIC_1_URL . '/assets/cv1-drawer-nav.js',
+		'civicone-drawer-nav',
+		CIVIC_1_URL . '/assets/civicone-drawer-nav.js',
 		array(),
 		(string) filemtime( $js ),
 		array(
@@ -89,10 +89,10 @@ function civic_1_enqueue_component_scripts(): void {
 add_action( 'wp_enqueue_scripts', 'civic_1_enqueue_component_scripts', 15 );
 
 /**
- * Editor styles for component CSS (in addition to cv1.css).
+ * Editor styles for component CSS (in addition to civicone.css).
  */
 function civic_1_editor_component_styles(): void {
-	foreach ( array( 'cv1-drawer-nav.css', 'cv1-components-mobile.css', 'cv1-header-cta.css' ) as $file ) {
+	foreach ( array( 'civicone-drawer-nav.css', 'civicone-components-mobile.css', 'civicone-header-cta.css' ) as $file ) {
 		$path = CIVIC_1_DIR . '/assets/' . $file;
 		if ( file_exists( $path ) ) {
 			add_editor_style( CIVIC_1_URL . '/assets/' . $file );

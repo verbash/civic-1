@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @param string               $block_content Block HTML.
  * @param array<string, mixed> $block         Parsed block.
  */
-function cv1_wrap_iframe_html_blocks( string $block_content, array $block ): string {
+function civicone_wrap_iframe_html_blocks( string $block_content, array $block ): string {
 	if ( ( $block['blockName'] ?? '' ) !== 'core/html' ) {
 		return $block_content;
 	}
@@ -30,18 +30,18 @@ function cv1_wrap_iframe_html_blocks( string $block_content, array $block ): str
 		return $block_content;
 	}
 
-	if ( str_contains( $block_content, 'cv1-embed-region' ) ) {
+	if ( str_contains( $block_content, 'civicone-embed-region' ) ) {
 		return $block_content;
 	}
 
 	$modifier = '';
 	if ( str_contains( $block_content, 'calendarwiz.com' ) ) {
-		$modifier = ' cv1-embed-region--calendar';
+		$modifier = ' civicone-embed-region--calendar';
 	} elseif ( str_contains( $block_content, 'airtable.com' ) ) {
-		$modifier = ' cv1-embed-region--airtable';
+		$modifier = ' civicone-embed-region--airtable';
 	}
 
-	return '<div class="cv1-embed-region' . esc_attr( $modifier ) . '">' . $block_content . '</div>';
+	return '<div class="civicone-embed-region' . esc_attr( $modifier ) . '">' . $block_content . '</div>';
 }
 
-add_filter( 'render_block', 'cv1_wrap_iframe_html_blocks', 12, 2 );
+add_filter( 'render_block', 'civicone_wrap_iframe_html_blocks', 12, 2 );

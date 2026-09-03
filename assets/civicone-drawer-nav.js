@@ -1,21 +1,21 @@
 /**
- * Civic-1 drawer navigation
+ * CivicOne drawer navigation
  *
  * Modal drawer via native <dialog> (focus trap, Escape, ::backdrop).
  * Exclusive disclosure sections per APG navigation menu pattern.
  *
  * @see https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/
- * @see cv1-component-library.md
+ * @see civicone-component-library.md
  */
 ( function () {
-	const root = document.querySelector( '[data-cv1-drawer]' );
+	const root = document.querySelector( '[data-civicone-drawer]' );
 	if ( ! root ) {
 		return;
 	}
 
 	const dialog = root.querySelector( 'dialog' );
-	const openBtn = root.querySelector( '.cv1-drawer__open' );
-	const closeBtn = root.querySelector( '[data-cv1-drawer-close]' );
+	const openBtn = root.querySelector( '.civicone-drawer__open' );
+	const closeBtn = root.querySelector( '[data-civicone-drawer-close]' );
 	const pageMain =
 		document.querySelector( '.wp-site-blocks > main' ) ||
 		document.querySelector( 'main' );
@@ -45,7 +45,7 @@
 			return;
 		}
 		siteHeader.style.transform = 'translate3d(0,' + shift + 'px,0)';
-		siteHeader.classList.add( 'cv1-drawer-header-pinned' );
+		siteHeader.classList.add( 'civicone-drawer-header-pinned' );
 	}
 
 	function unpinSiteHeader() {
@@ -53,7 +53,7 @@
 			return;
 		}
 		siteHeader.style.transform = '';
-		siteHeader.classList.remove( 'cv1-drawer-header-pinned' );
+		siteHeader.classList.remove( 'civicone-drawer-header-pinned' );
 	}
 
 	function setInert( inert ) {
@@ -74,7 +74,7 @@
 		document.body.style.left = '0';
 		document.body.style.right = '0';
 		document.body.style.width = '100%';
-		document.documentElement.classList.add( 'cv1-drawer-open' );
+		document.documentElement.classList.add( 'civicone-drawer-open' );
 	}
 
 	function unlockScroll() {
@@ -83,20 +83,20 @@
 		document.body.style.left = '';
 		document.body.style.right = '';
 		document.body.style.width = '';
-		document.documentElement.classList.remove( 'cv1-drawer-open' );
+		document.documentElement.classList.remove( 'civicone-drawer-open' );
 		window.scrollTo( 0, scrollLockY );
 	}
 
-	const scrim = dialog.querySelector( '[data-cv1-drawer-scrim]' );
+	const scrim = dialog.querySelector( '[data-civicone-drawer-scrim]' );
 	const motionQuery = window.matchMedia( '(prefers-reduced-motion: reduce)' );
 	const fadeDurationMs = 280;
 	let isClosing = false;
 
 	function setMenuToggleOpen( isOpen ) {
 		if ( isOpen ) {
-			root.classList.add( 'cv1-drawer--menu-open' );
+			root.classList.add( 'civicone-drawer--menu-open' );
 		} else {
-			root.classList.remove( 'cv1-drawer--menu-open' );
+			root.classList.remove( 'civicone-drawer--menu-open' );
 		}
 	}
 
@@ -136,11 +136,11 @@
 		dialog.showModal();
 		setMenuToggleOpen( true );
 		setInert( true );
-		dialog.classList.remove( 'cv1-drawer__dialog--visible' );
+		dialog.classList.remove( 'civicone-drawer__dialog--visible' );
 
 		window.requestAnimationFrame( function () {
 			window.requestAnimationFrame( function () {
-				dialog.classList.add( 'cv1-drawer__dialog--visible' );
+				dialog.classList.add( 'civicone-drawer__dialog--visible' );
 			} );
 		} );
 
@@ -154,7 +154,7 @@
 
 		isClosing = true;
 		setMenuToggleOpen( false );
-		dialog.classList.remove( 'cv1-drawer__dialog--visible' );
+		dialog.classList.remove( 'civicone-drawer__dialog--visible' );
 
 		runAfterFadeTransition( function () {
 			isClosing = false;
@@ -187,7 +187,7 @@
 	}
 
 	function collapseAllDisclosures() {
-		root.querySelectorAll( '.cv1-drawer__disclosure[aria-expanded="true"]' ).forEach( collapseDisclosure );
+		root.querySelectorAll( '.civicone-drawer__disclosure[aria-expanded="true"]' ).forEach( collapseDisclosure );
 	}
 
 	openBtn.addEventListener( 'click', openDrawer );
@@ -201,7 +201,7 @@
 	dialog.addEventListener( 'close', function () {
 		isClosing = false;
 		setMenuToggleOpen( false );
-		dialog.classList.remove( 'cv1-drawer__dialog--visible' );
+		dialog.classList.remove( 'civicone-drawer__dialog--visible' );
 		unpinSiteHeader();
 		unlockScroll();
 		setInert( false );
@@ -212,7 +212,7 @@
 		scrim.addEventListener( 'click', closeDrawer );
 	}
 
-	root.querySelectorAll( '.cv1-drawer__disclosure' ).forEach( function ( button ) {
+	root.querySelectorAll( '.civicone-drawer__disclosure' ).forEach( function ( button ) {
 		button.addEventListener( 'click', function () {
 			const isOpen = button.getAttribute( 'aria-expanded' ) === 'true';
 
@@ -221,7 +221,7 @@
 				return;
 			}
 
-			root.querySelectorAll( '.cv1-drawer__disclosure[aria-expanded="true"]' ).forEach( function ( other ) {
+			root.querySelectorAll( '.civicone-drawer__disclosure[aria-expanded="true"]' ).forEach( function ( other ) {
 				if ( other !== button ) {
 					collapseDisclosure( other );
 				}
